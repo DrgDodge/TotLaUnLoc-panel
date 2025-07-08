@@ -3,7 +3,7 @@ services:
     container_name: totlaunloc-backend
     build: https://github.com/DrgDodge/TotLaUnLoc-panel.git#main:backend
     volumes:
-      - /srv/backend/db.sqlite:/usr/srv/app/db.sqlite
+      - /srv/totlaunloc/backend/db.sqlite:/app/db.sqlite
     networks:
       - proxy
     restart: unless-stopped
