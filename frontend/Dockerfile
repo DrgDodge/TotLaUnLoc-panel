@@ -28,11 +28,9 @@ RUN bun run build
 
 # copy production dependencies and source code into final image
 FROM base AS release
-COPY --from=install /temp/prod/node_modules node_modules
-COPY --from=prerelease /app/build .
+COPY --from=prerelease /app/build build
 
 # run the app
 USER bun
 EXPOSE 5573/tcp
-# ENTRYPOINT [ "bun", "run", "index.ts" ]
-CMD ["ls", "*"]
+ENTRYPOINT [ "bun", "run", "build/index.js" ]

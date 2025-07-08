@@ -1,7 +1,7 @@
 import { Server } from "socket.io";
 import { Database } from "bun:sqlite";
 
-const db = new Database("db.sqlite");
+const db = new Database("db.sqlite", {create: true});
 
 const PORT = 7355;
 const io = new Server(PORT, { 

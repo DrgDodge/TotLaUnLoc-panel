@@ -1,7 +1,7 @@
 # use the official Bun image
 # see all versions at https://hub.docker.com/r/oven/bun/tags
 FROM oven/bun:1 AS base
-WORKDIR /usr/src/app
+WORKDIR /app
 
 # install dependencies into temp directory
 # this will cache them and speed up future builds
@@ -21,19 +21,16 @@ FROM base AS prerelease
 COPY --from=install /temp/dev/node_modules node_modules
 COPY . .
 
-# [optional] tests & build
-# ENV NODE_ENV=production
-# remove test until we add tests.
-# RUN bun test 
-# RUN bun run index.ts
-
 # copy production dependencies and source code into final image
 FROM base AS release
+
+RUN touch db.sqlite
+
 COPY --from=install /temp/prod/node_modules node_modules
-COPY --from=prerelease /usr/src/app/index.ts .
-COPY --from=prerelease /usr/src/app/package.json .
+COPY --from=prerelease /app/index.ts .
+COPY --from=prerelease /app/package.json .
 
 # run the app
 USER bun
 EXPOSE 7355/tcp
-ENTRYPOINT [ "bun", "run", "index.ts" ]
+#ENTRYPOINT [ "bun", "run", "index.ts" ]
