@@ -25,7 +25,7 @@ COPY . .
 ENV NODE_ENV=production
 # remove test until we add tests.
 # RUN bun test 
-RUN bun run build
+RUN bun run index.ts
 
 # copy production dependencies and source code into final image
 FROM base AS release
