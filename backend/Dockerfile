@@ -22,10 +22,10 @@ COPY --from=install /temp/dev/node_modules node_modules
 COPY . .
 
 # [optional] tests & build
-ENV NODE_ENV=production
+# ENV NODE_ENV=production
 # remove test until we add tests.
 # RUN bun test 
-RUN bun run index.ts
+# RUN bun run index.ts
 
 # copy production dependencies and source code into final image
 FROM base AS release
