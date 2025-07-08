@@ -3,7 +3,7 @@ import { Database } from "bun:sqlite";
 
 const db = new Database("db.sqlite");
 
-const PORT = 3000;
+const PORT = 7355;
 const io = new Server(PORT, { 
   cors: {
     origin: "*"
