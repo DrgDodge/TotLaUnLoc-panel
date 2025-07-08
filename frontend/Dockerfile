@@ -1,7 +1,7 @@
 # use the official Bun image
 # see all versions at https://hub.docker.com/r/oven/bun/tags
 FROM oven/bun:1 AS base
-WORKDIR /usr/src/app
+WORKDIR /app
 
 # install dependencies into temp directory
 # this will cache them and speed up future builds
@@ -22,18 +22,15 @@ COPY --from=install /temp/dev/node_modules node_modules
 COPY . .
 
 # [optional] tests & build
-# ENV NODE_ENV=production
-# remove test until we add tests.
-# RUN bun test
-# RUN bun run build
+ENV NODE_ENV=production
+ENV PORT=5573
+RUN bun run build
 
 # copy production dependencies and source code into final image
 FROM base AS release
-COPY --from=install /temp/prod/node_modules node_modules
-COPY --from=prerelease /usr/src/app/* .
-COPY --from=prerelease /usr/src/app/package.json .
+COPY --from=prerelease /app/build build
 
 # run the app
 USER bun
 EXPOSE 5573/tcp
-ENTRYPOINT [ "bun", "run", "preview" ]
+ENTRYPOINT [ "bun", "run", "build/index.js" ]
