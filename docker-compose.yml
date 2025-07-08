@@ -11,6 +11,8 @@ services:
   totlaunloc-panel-frontend:
     container_name: totlaunloc-frontend
     build: https://github.com/DrgDodge/TotLaUnLoc-panel.git#main:frontend
+    environment:
+      - PORT=5573
     networks:
       - proxy
     restart: unless-stopped
