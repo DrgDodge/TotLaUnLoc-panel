@@ -1,12 +1,12 @@
 services:
   totlaunloc-panel-backend:
-  container_name: totlaunloc-backend
-  build: https://github.com/DrgDodge/TotLaUnLoc-panel.git#main:backend
-  volumes:
-    - /srv/backend/db.sqlite:/usr/srv/app/db.sqlite
-  networks:
-    - proxy
-  restart: unless-stopped
+    container_name: totlaunloc-backend
+    build: https://github.com/DrgDodge/TotLaUnLoc-panel.git#main:backend
+    volumes:
+      - /srv/backend/db.sqlite:/usr/srv/app/db.sqlite
+    networks:
+      - proxy
+    restart: unless-stopped
 
   totlaunloc-panel-frontend:
     container_name: totlaunloc-frontend
