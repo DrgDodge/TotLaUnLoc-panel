@@ -10,8 +10,13 @@
     <p class="text-xl text-neutral-300 mb-8 leading-relaxed">
       Get the secure and user-friendly TotLaUnLoc desktop application for free.
     </p>
-    <a href="https://totlaunloc.com/download" target="_blank" class="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200">
-      Download Now
-    </a>
+    <div class="flex justify-center gap-4">
+      <a href="https://totlaunloc.top/download/totlaunloc.exe" target="_blank" class="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200">
+        Direct Download
+      </a>
+      <a href="https://github.com/DrgDodge/TotLaUnLoc/releases" target="_blank" class="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200">
+        Github Download
+      </a>
+    </div>
   </div>
 </div>
