@@ -76,11 +76,6 @@
       <a bind:this={pricingLink} href="/pricing" class="nav-link text-neutral-300 hover:text-blue-400 transition-colors duration-200 text-lg font-medium px-4 py-2">Pricing</a>
       <a bind:this={adminLink} href={navLinkHref} class="nav-link text-neutral-300 hover:text-blue-400 transition-colors duration-200 text-lg font-medium px-4 py-2">{navLinkText}</a>
     </nav>
-		{#if $page.url.pathname.startsWith('/admin')}
-			<button onclick={() => {sessionStorage.removeItem('isLoggedIn'); goto('/login');}} class="ml-4 bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200">
-				Logout
-			</button>
-		{/if}
   </header>
 
   <main class="flex-1 flex flex-col items-center justify-center pt-24 p-8" transition:fade>

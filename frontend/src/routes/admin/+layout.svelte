@@ -1,13 +1,27 @@
-<script lang="ts">
-  import { goto } from '$app/navigation';
-  import { onMount } from 'svelte';
+<script>
+  import { onMount } from "svelte";
+  import { goto } from "$app/navigation";
 
-  onMount(() => {
-    // Need backend integration
-    const isLoggedIn = sessionStorage.getItem('isLoggedIn');
+  onMount(async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      goto("/login");
+      return;
+    }
 
-    if (isLoggedIn !== 'true') {
-      goto('/login');
+    const res = await fetch("http://localhost:7355/auth/status", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      if (!data.isAuthenticated) {
+        goto("/login");
+      }
+    } else {
+      goto("/login");
     }
   });
 </script>

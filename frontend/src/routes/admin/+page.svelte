@@ -1,5 +1,11 @@
 <script lang="ts">
   import { fly } from 'svelte/transition';
+  import { goto } from "$app/navigation";
+
+  function logout() {
+    localStorage.removeItem("token");
+    goto("/login");
+  }
 
   // Test data, need backend implementation
   let apiKeyLimit = 5;
@@ -69,9 +75,14 @@
 </script>
 
 <div class="max-w-7xl mx-auto p-4 md:p-8">
-  <h2 class="text-4xl font-extrabold mb-8 text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
-    Manage Your Infrastructure
-  </h2>
+  <div class="flex justify-between items-center">
+    <h2 class="text-4xl font-extrabold mb-8 text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
+      Manage Your Infrastructure
+    </h2>
+    <button on:click={logout} class="px-4 py-2 text-white bg-red-600 rounded-lg hover:bg-red-700">
+      Logout
+    </button>
+  </div>
 
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
     <!-- API Key Management -->

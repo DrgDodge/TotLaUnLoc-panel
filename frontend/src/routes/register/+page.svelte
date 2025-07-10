@@ -1,31 +1,10 @@
 <script>
-  import { onMount } from "svelte";
-  import { goto } from "$app/navigation";
-
   let username = "";
   let password = "";
   let message = "";
 
-  onMount(async () => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      const res = await fetch("http://localhost:7355/auth/status", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (res.ok) {
-        const data = await res.json();
-        if (data.isAuthenticated) {
-          goto("/admin");
-        }
-      }
-    }
-  });
-
-  async function login() {
-    const res = await fetch("http://localhost:7355/auth/login", {
+  async function register() {
+    const res = await fetch("http://localhost:7355/auth/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -36,8 +15,7 @@
     const data = await res.json();
 
     if (res.ok) {
-      localStorage.setItem("token", data.token);
-      goto("/admin");
+      message = "Registration successful!";
     } else {
       message = data.error || "An error occurred";
     }
@@ -46,8 +24,8 @@
 
 <div class="flex items-center justify-center h-screen">
   <div class="w-full max-w-md p-8 space-y-6 bg-neutral-800 rounded-xl shadow-2xl border border-neutral-700">
-    <h1 class="text-2xl font-bold text-center text-white">Login</h1>
-    <form on:submit|preventDefault={login}>
+    <h1 class="text-2xl font-bold text-center text-white">Register</h1>
+    <form on:submit|preventDefault={register}>
       <div class="space-y-4">
         <div>
           <label for="username" class="block mb-2 text-sm font-medium text-neutral-300">Username</label>
@@ -71,7 +49,7 @@
         </div>
       </div>
       <button type="submit" class="w-full mt-6 px-4 py-2 text-white bg-purple-600 rounded-lg hover:bg-purple-700">
-        Login
+        Register
       </button>
     </form>
     {#if message}
