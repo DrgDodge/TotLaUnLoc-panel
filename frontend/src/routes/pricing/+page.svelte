@@ -73,7 +73,7 @@
       </div>
 
       <div class="text-2xl text-neutral-200">
-        <p class="mb-2">Required License Keys: <span class="font-bold text-blue-400">{licenseKeys()}</span></p>
+        <p class="mb-2">Max License Keys: <span class="font-bold text-blue-400">{licenseKeys}</span></p>
         <p>Estimated Monthly Price: <span class="font-bold text-green-400">{estimatedPrice() === 'Contact Us' ? estimatedPrice() : `€${estimatedPrice()}`}</span></p>
       </div>
     </div>
