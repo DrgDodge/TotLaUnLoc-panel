@@ -72,8 +72,8 @@
 		<header
 			class="z-50 bg-neutral-900/30 backdrop-blur-lg rounded-full p-4 shadow-lg flex items-center justify-between border border-neutral-700 transition-all duration-1000 ease-in-out"
 			style={$page.url.pathname.startsWith("/admin")
-				? "width: 680px"
-				: "width: 580px"}
+				? "width: 615px"
+				: "width: 540px"}
 		>
 			<nav class="px-4 flex relative">
 				<div
