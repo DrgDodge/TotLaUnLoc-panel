@@ -1,5 +1,14 @@
 <script lang="ts">
   import { fly } from 'svelte/transition';
+  import { goto } from '$app/navigation';
+  import { onMount } from 'svelte';
+
+  onMount(() => {
+    const isSuperUser = document.cookie.includes('isSuperUser=true');
+    if (!isSuperUser) {
+      goto('/login');
+    }
+  });
 
       // Need Backend
   let users = $state([

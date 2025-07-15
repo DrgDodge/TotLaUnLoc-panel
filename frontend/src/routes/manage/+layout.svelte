@@ -1,22 +1,24 @@
 <script lang="ts">
-  import { page } from '$app/stores';
   import { goto } from '$app/navigation';
   import { onMount } from 'svelte';
+  import { page } from '$app/stores';
   import { spring } from 'svelte/motion';
 
   onMount(() => {
-    const isLoggedIn = document.cookie.includes('isLoggedIn=true');
-    if (!isLoggedIn) {
+    const isLoggedIn = sessionStorage.getItem('isLoggedIn');
+    const isSuperUser = sessionStorage.getItem('isSuperUser');
+    if (isLoggedIn !== 'true' || isSuperUser !== 'true') {
       goto('/login');
     }
   });
 
+  function logout() {
+    sessionStorage.clear();
+    goto('/login');
+  }
+
   const tabs = [
-    { name: 'Account Settings', path: '/admin/account' },
-    { name: 'Order', path: '/admin/order' },
-    { name: 'Subscription', path: '/admin/subscription' },
-    { name: 'Infrastructure', path: '/admin/infrastructure' },
-    { name: 'Manage Infrastructure', path: '/admin/manage-infrastructure' },
+    { name: 'Manage', path: '/manage' },
   ];
 
   let indicator = spring({ top: 0, height: 0 }, {
@@ -55,6 +57,7 @@
           {tab.name}
         </a>
       {/each}
+      <button on:click={logout} class="nav-link p-4 rounded-lg transition-colors duration-200 text-neutral-400 hover:text-white">Logout</button>
     </nav>
   </aside>
 
