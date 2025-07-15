@@ -89,7 +89,7 @@
         />
       </div>
 
-      <div class="border border-neutral-700 rounded-lg p-6 bg-neutral-900 h-[120px] overflow-y-auto custom-scrollbar flex-shrink-0">
+      <div class="border border-neutral-700 rounded-lg p-6 bg-neutral-900 h-[344px] overflow-y-auto custom-scrollbar flex-shrink-0">
         {#if filteredUsers.length > 0}
           <ul>
             {#each filteredUsers as user}
