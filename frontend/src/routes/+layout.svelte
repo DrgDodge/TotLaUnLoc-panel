@@ -23,7 +23,7 @@
 		},
 	);
 
-	const navLinkText = $derived("Admin Page");
+	const navLinkText = $derived('Account');
 	const navLinkHref = "/admin";
 
 	function updateIndicatorPosition() {

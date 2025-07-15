@@ -2,22 +2,22 @@
   import { fly } from 'svelte/transition';
 
   // Test data, need backend implementation
-  let apiKeyLimit = 5;
-  let apiKeys = [
+  const apiKeyLimit = 5;
+  let apiKeys = $state([
     { key: 'a1b2c3d4-e5f6-7890-1234-567890abcdef', nickname: 'Production Server' },
     { key: 'f0e9d8c7-b6a5-4321-fedc-ba9876543210', nickname: 'Staging Environment' }
-  ];
-  let machines = [
+  ]);
+  let machines = $state([
     { id: 'machine-001', apiKey: 'a1b2c3d4-e5f6-7890-1234-567890abcdef', name: 'Web Server 1' },
     { id: 'machine-002', apiKey: 'a1b2c3d4-e5f6-7890-1234-567890abcdef', name: 'Database Server' },
     { id: 'machine-003', apiKey: 'f0e9d8c7-b6a5-4321-fedc-ba9876543210', name: 'Test Machine A' }
-  ];
+  ]);
 
-  let newApiKey = '';
-  let newApiKeyNickname = '';
-  let selectedApiKey = apiKeys[0]?.key || '';
-  let showModal = false;
-  let modalApiKey = '';
+  let newApiKey = $state('');
+  let newApiKeyNickname = $state('');
+  let selectedApiKey = $state(apiKeys[0]?.key || '');
+  let showModal = $state(false);
+  let modalApiKey = $state('');
 
   function generateApiKey() {
     if (apiKeys.length < apiKeyLimit) {
@@ -29,7 +29,7 @@
 
   function addApiKey() {
     if (newApiKey && newApiKeyNickname) {
-      apiKeys = [...apiKeys, { key: newApiKey, nickname: newApiKeyNickname }];
+      apiKeys.push({ key: newApiKey, nickname: newApiKeyNickname });
       newApiKey = '';
       newApiKeyNickname = '';
     }
@@ -59,13 +59,13 @@
         apiKey: selectedApiKey,
         name: `Test Machine ${Math.floor(Math.random() * 100)}`
       };
-      machines = [...machines, newMachine];
+      machines.push(newMachine);
     } else {
       alert('Please select an API key first.');
     }
   }
 
-  $: filteredMachines = machines.filter(m => m.apiKey === selectedApiKey);
+  const filteredMachines = $derived(machines.filter(m => m.apiKey === selectedApiKey));
 </script>
 
 <div class="max-w-7xl mx-auto p-4 md:p-8">
@@ -87,12 +87,12 @@
           <div class="flex flex-col sm:flex-row gap-4">
             <input type="text" readonly bind:value={newApiKey} class="flex-grow bg-neutral-900 border border-neutral-600 rounded-lg px-4 py-2 text-neutral-300 focus:outline-none focus:ring-2 focus:ring-purple-500" />
             <input type="text" placeholder="Enter Nickname" bind:value={newApiKeyNickname} class="bg-neutral-900 border border-neutral-600 rounded-lg px-4 py-2 text-neutral-300 focus:outline-none focus:ring-2 focus:ring-purple-500" />
-            <button on:click={addApiKey} class="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200">
+            <button onclick={addApiKey} class="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200">
               Add Key
             </button>
           </div>
         {:else if apiKeys.length < apiKeyLimit}
-          <button on:click={generateApiKey} class="w-full bg-transparent hover:bg-neutral-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 border border-purple-600 hover:border-purple-500">
+          <button onclick={generateApiKey} class="w-full bg-transparent hover:bg-neutral-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 border border-purple-600 hover:border-purple-500">
             Generate New API Key
           </button>
         {:else}
@@ -108,10 +108,10 @@
               <li class="flex justify-between items-center p-2 rounded-lg hover:bg-neutral-800">
                 <span class="font-mono text-sm text-neutral-300">{apiKey.nickname}</span>
                 <div class="flex gap-2">
-                  <button on:click={() => copyToClipboard(apiKey.key)} aria-label="Copy API Key" class="text-neutral-400 hover:text-white transition-colors">
+                  <button onclick={() => copyToClipboard(apiKey.key)} aria-label="Copy API Key" class="text-neutral-400 hover:text-white transition-colors">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M8 2a1 1 0 00-1 1v1H5a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2V6a2 2 0 00-2-2h-2V3a1 1 0 00-1-1H8zM7 4h6v1H7V4zM6 8a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1z" /></svg>
                   </button>
-                  <button on:click={() => showApiKeyModal(apiKey.key)} aria-label="Show API Key" class="text-neutral-400 hover:text-white transition-colors">
+                  <button onclick={() => showApiKeyModal(apiKey.key)} aria-label="Show API Key" class="text-neutral-400 hover:text-white transition-colors">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9 11a1 1 0 112 0v4a1 1 0 11-2 0v-4zm2-5a1 1 0 10-2 0v.01a1 1 0 102 0V6z" clip-rule="evenodd" /></svg>
                   </button>
                 </div>
@@ -154,10 +154,10 @@
         {/if}
       </div>
        <div class="flex gap-4 mt-8">
-        <button on:click={checkForNewMachines} class="w-full flex items-center justify-center gap-2 bg-transparent hover:bg-neutral-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 border border-green-600 hover:border-green-500">
+        <button onclick={checkForNewMachines} class="w-full flex items-center justify-center gap-2 bg-transparent hover:bg-neutral-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 border border-green-600 hover:border-green-500">
           Check for New Machines
         </button>
-        <button on:click={addTestMachine} class="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200">
+        <button onclick={addTestMachine} class="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200">
           Add Test Machine
         </button>
       </div>
@@ -170,8 +170,8 @@
      class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
   <div class="bg-neutral-800 rounded-xl shadow-2xl p-8 border border-neutral-600 max-w-md w-full text-center">
     <h3 class="text-2xl font-bold mb-4 text-purple-300">API Key</h3>
-    <p class="font-mono bg-neutral-900 p-4 rounded-lg text-neutral-200 break-all">{modalApiKey}</p>
-    <button on:click={() => showModal = false} class="mt-6 bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-6 rounded-lg transition-colors duration-200">
+    <button onclick={() => copyToClipboard(modalApiKey)} class="font-mono bg-neutral-900 p-4 rounded-lg text-neutral-200 break-all cursor-pointer w-full text-left hover:bg-neutral-700">{modalApiKey}</button>
+    <button onclick={() => showModal = false} class="mt-6 bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-6 rounded-lg transition-colors duration-200">
       Close
     </button>
   </div>
