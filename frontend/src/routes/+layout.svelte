@@ -40,7 +40,13 @@
 				activeLinkElement = adminLink;
 			} else if ($page.url.pathname === "/pricing") {
 				activeLinkElement = pricingLink;
-			}
+			} else if ($page.url.pathname === "/login") {
+				activeLinkElement = adminLink;
+			} else if ($page.url.pathname === "/register") {
+				activeLinkElement = adminLink;
+			} else if ($page.url.pathname === "/manage") {
+				activeLinkElement = adminLink;
+			} 
 
 			if (activeLinkElement) {
 				indicator.set({
