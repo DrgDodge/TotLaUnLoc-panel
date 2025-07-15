@@ -68,7 +68,7 @@
       
       <div class="flex flex-col md:flex-row items-center justify-center gap-6 mb-6">
         <label for="devices" class="text-xl font-medium">Number of Devices: <span class="font-bold text-blue-400">{devices >= 1000 ? '1000+' : devices}</span></label>
-        <input type="range" id="devices" bind:value={devices} min="30" max="1000" step="10" class="w-full md:w-64 h-2 bg-neutral-700 rounded-lg appearance-none cursor-pointer range-lg">
+        <input type="range" id="devices" bind:value={devices} min="30" max="1000" step="10" class="w-full md:w-96 h-4 bg-neutral-700 rounded-lg appearance-none cursor-pointer range-lg">
       </div>
 
       <div class="text-2xl text-neutral-200">
