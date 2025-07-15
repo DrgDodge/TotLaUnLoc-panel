@@ -14,7 +14,7 @@
   }
 </script>
 
-<div class="flex items-center justify-center h-full bg-cover bg-center" style="background-image: url('/macos-wallpaper.jpg');">
+<div class="flex items-center justify-center h-full bg-cover bg-center">
   <div class="w-full max-w-md p-8 space-y-6 bg-white/10 backdrop-blur-2xl rounded-2xl shadow-2xl border border-white/20">
     <h1 class="text-3xl font-bold text-center text-white">Admin Login</h1>
     <form on:submit|preventDefault={login} class="space-y-6">
