@@ -22,7 +22,7 @@
 </script>
 
 <div class="flex flex-col items-center justify-center h-full p-8">
-  <div class="bg-neutral-800 p-10 rounded-xl shadow-2xl text-center max-w-6xl w-full border border-neutral-700">
+  <div class="bg-neutral-800 p-10 rounded-xl shadow-2xl text-center max-w-7xl w-full border border-neutral-700">
     <h2 class="text-4xl font-extrabold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 leading-tight">
       TotLaUnLoc Licensing & Pricing
     </h2>
@@ -55,7 +55,6 @@
           <li>Centralized management via TotLaUnLoc-panel</li>
           <li>License key management for multiple devices</li>
           <li>Dedicated support</li>
-          <li>Customizable deployment options</li>
         </ul>
         <a href="https://totlaunloc-panel.com" target="_blank" class="inline-block bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200">
           Learn More about TotLaUnLoc-panel
