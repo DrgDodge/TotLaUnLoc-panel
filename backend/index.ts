@@ -20,6 +20,21 @@ console.log(`Started server on port ${PORT}!`);
 
 io.on("connection", (socket) => {
 
+  socket.on("register", async (data, callback) => {
+    try {
+      const newUser = {
+        "email": data.username,
+        "password": data.password,
+        "passwordConfirm": data.password,
+        "emailVisibility": true,
+      };
+      await pb.collection('users').create(newUser);
+      callback({ success: true });
+    } catch (e: any) {
+      callback({ success: false, message: e.message });
+    }
+  });
+
   socket.on("auth", async (data, callback) => {
 
     console.log(data)

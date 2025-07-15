@@ -9,14 +9,16 @@
 
   function login() {
 
-    socket.emit("auth", {username: username, password: password}, (res, err) => {
+    socket.emit("auth", {username: username, password: password}, (res: { authentificated: boolean, isSuperUser: boolean }, err: any) => {
       
-      if (res.authentificated && res.isSuperUser) {
-        sessionStorage.setItem('isLoggedIn', 'true');
-        goto('/manage');
-      } else if (res.authentificated && !res.isSuperUser) {
-        sessionStorage.setItem('isLoggedIn', 'true');
-        goto('/admin');
+      if (res.authentificated) {
+        document.cookie = `isLoggedIn=true; path=/`;
+        document.cookie = `isSuperUser=${res.isSuperUser}; path=/`;
+        if (res.isSuperUser) {
+          goto('/manage');
+        } else {
+          goto('/admin');
+        }
       } else {
         alert('Invalid credentials');
       }

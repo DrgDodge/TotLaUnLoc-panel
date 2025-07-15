@@ -1,5 +1,8 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
+  import { io } from "socket.io-client"
+
+  const socket = io("http://127.0.0.1:7355")
 
   let username = '';
   let password = '';
@@ -12,24 +15,16 @@
       return;
     }
 
-    const res = await fetch("http://localhost:7355/auth/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ username, password }),
+    socket.emit("register", { username, password }, (res: { success: boolean }, err: any) => {
+      if (res.success) {
+        message = "Registration successful! Redirecting to login...";
+        setTimeout(() => {
+          goto('/login');
+        }, 2000);
+      } else {
+        message = err || "An error occurred during registration.";
+      }
     });
-
-    const data = await res.json();
-
-    if (res.ok) {
-      message = "Registration successful! Redirecting to login...";
-      setTimeout(() => {
-        goto('/login');
-      }, 2000);
-    } else {
-      message = data.error || "An error occurred during registration.";
-    }
   }
 </script>
 
