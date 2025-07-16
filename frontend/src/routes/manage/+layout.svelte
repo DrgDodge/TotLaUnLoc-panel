@@ -50,7 +50,7 @@
           {tab.name}
         </a>
       {/each}
-      <button onclick={logout} class="nav-link p-4 rounded-lg transition-colors duration-200 text-neutral-400 hover:text-white">Logout</button>
+      <!-- <button onclick={logout} class="nav-link p-4 rounded-lg transition-colors duration-200 text-neutral-400 hover:text-white">Logout</button> -->
     </nav>
   </aside>
 

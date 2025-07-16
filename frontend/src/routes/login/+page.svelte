@@ -20,6 +20,7 @@
       const { isSuperUser } = await response.json();
       if (isSuperUser) {
         goto('/manage');
+
       } else {
         goto('/admin');
       }

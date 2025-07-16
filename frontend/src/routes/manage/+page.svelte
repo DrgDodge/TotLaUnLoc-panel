@@ -3,7 +3,13 @@
   import { goto } from '$app/navigation';
   import { onMount } from 'svelte';
 
-  
+  onMount(() => {
+    const hasVisited = sessionStorage.getItem('managePageVisited');
+    if (!hasVisited) {
+      sessionStorage.setItem('managePageVisited', 'true');
+      location.reload();
+    }
+  });
 
       // Need Backend
   let users = $state([
