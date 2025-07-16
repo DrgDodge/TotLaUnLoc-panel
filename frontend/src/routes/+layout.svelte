@@ -14,8 +14,10 @@
 	let aboutLink: HTMLAnchorElement;
 	let downloadLink: HTMLAnchorElement;
 	let pricingLink: HTMLAnchorElement;
-	let manageLink: HTMLAnchorElement;
+	let manageLink: HTMLAnchorElement | undefined = $state();
 	let adminLink: HTMLAnchorElement;
+
+	let showLogoutButton = $state(true);
 
 	let indicator = spring(
 		{ left: 0, width: 0 },
@@ -87,7 +89,7 @@
 		<header
 			class="z-50 bg-neutral-900/30 backdrop-blur-lg rounded-full p-4 shadow-lg flex items-center justify-between border border-neutral-700 transition-all duration-1000 ease-in-out"
 			style={
-				($page.url.pathname.startsWith("/admin") || $page.url.pathname.startsWith("/manage"))
+				($page.url.pathname.startsWith("/admin") || $page.url.pathname.startsWith("/manage")) && showLogoutButton
 					? (data.isSuperUser ? "width: 715px" : "width: 625px")
 					: (data.isSuperUser ? "width: 625px" : "width: 535px")
 			}
@@ -119,10 +121,12 @@
 					>Pricing</a>
 				{#if data.isSuperUser}
 					<a
+						transition:fly={{ x: 20, duration: 500, easing: quintOut }}
 						bind:this={manageLink}
 						href="/manage"
 						class="nav-link text-neutral-300 hover:text-blue-400 transition-colors duration-200 text-lg font-medium px-4 py-2"
-						>Manage</a>
+						>Manage</a
+					>
 				{/if}
 				<a
 					bind:this={adminLink}
@@ -131,22 +135,25 @@
 					>{navLinkText}</a>
 			</nav>
 			{#if $page.url.pathname.startsWith("/admin") || $page.url.pathname.startsWith("/manage")}
-				<div
-					transition:fly={{ x: 20, duration: 500, easing: quintOut }}
-				>
-					<button
+				{#if showLogoutButton}
+					<div
+						transition:fly={{ x: 20, duration: 500, easing: quintOut }}
+					>
+						<button
 						onclick={async () => {
 							await fetch('/logout', { method: 'POST' });
 							sessionStorage.clear();
+							showLogoutButton = false;
 							setTimeout(() => {
 								location.reload();
-							}, 200);
+							}, 500);
 						}}
 						class="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-full transition-colors duration-100"
 					>
 						Logout
 					</button>
 				</div>
+				{/if}
 			{/if}
 		</header>
 	</div>
