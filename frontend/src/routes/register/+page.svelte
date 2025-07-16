@@ -1,13 +1,10 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
-  import { io } from "socket.io-client"
 
-  const socket = io("http://127.0.0.1:7355")
-
-  let username = '';
-  let password = '';
-  let confirmPassword = '';
-  let message = '';
+  let username = $state('');
+  let password = $state('');
+  let confirmPassword = $state('');
+  let message = $state('');
 
   async function register() {
     if (password !== confirmPassword) {
@@ -15,16 +12,23 @@
       return;
     }
 
-    socket.emit("register", { username, password }, (res: { success: boolean }, err: any) => {
-      if (res.success) {
-        message = "Registration successful! Redirecting to login...";
-        setTimeout(() => {
-          goto('/login');
-        }, 2000);
-      } else {
-        message = err || "An error occurred during registration.";
-      }
+    const response = await fetch('/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ username, password })
     });
+
+    if (response.ok) {
+      message = "Registration successful! Redirecting to login...";
+      setTimeout(() => {
+        goto('/login');
+      }, 2000);
+    } else {
+      const error = await response.text();
+      message = error || "An error occurred during registration.";
+    }
   }
 </script>
 

@@ -7,24 +7,25 @@
   let username = '';
   let password = '';
 
-  function login() {
-
-    socket.emit("auth", {username: username, password: password}, (res: { authentificated: boolean, isSuperUser: boolean }, err: any) => {
-      
-      if (res.authentificated) {
-        document.cookie = `isLoggedIn=true; path=/`;
-        document.cookie = `isSuperUser=${res.isSuperUser}; path=/`;
-        if (res.isSuperUser) {
-          goto('/manage');
-        } else {
-          goto('/admin');
-        }
-      } else {
-        alert('Invalid credentials');
-      }
-
+  async function login() {
+    const response = await fetch('/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ username, password })
     });
 
+    if (response.ok) {
+      const { isSuperUser } = await response.json();
+      if (isSuperUser) {
+        goto('/manage');
+      } else {
+        goto('/admin');
+      }
+    } else {
+      alert('Invalid credentials');
+    }
   }
 </script>
 

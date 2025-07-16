@@ -56,7 +56,7 @@
           <li>License key management for multiple devices</li>
           <li>Dedicated support</li>
         </ul>
-        <a href="https://totlaunloc-panel.com" target="_blank" class="inline-block bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200">
+        <a href="https://totlaunloc.top/login" target="_blank" class="inline-block bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200">
           Learn More about TotLaUnLoc-panel
         </a>
       </div>

@@ -1,7 +1,3 @@
-<script lang="ts">
-  
-</script>
-
 <div class="flex-1 flex flex-col items-center justify-center p-8">
     <div class="bg-neutral-800 p-10 rounded-xl shadow-2xl text-center max-w-3xl w-full border border-neutral-700">
       <h2 class="text-5xl font-extrabold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 leading-tight">

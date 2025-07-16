@@ -3,12 +3,7 @@
   import { goto } from '$app/navigation';
   import { onMount } from 'svelte';
 
-  onMount(() => {
-    const isSuperUser = document.cookie.includes('isSuperUser=true');
-    if (!isSuperUser) {
-      goto('/login');
-    }
-  });
+  
 
       // Need Backend
   let users = $state([
@@ -34,15 +29,15 @@
     user.email.toLowerCase().includes(userSearchQuery.toLowerCase())
   ));
 
-  function openGrantLicenseModal(user: typeof users[0]) {
+  const openGrantLicenseModal = (user: typeof users[0]) => {
     selectedUser = user;
     licenseToGrant = '';
     grantMachineLimit = user.machineLimit || 0;
     grantApiKeyLimit = user.apiKeyLimit || 0;
     showGrantLicenseModal = true;
-  }
+  };
 
-  function grantLicense() {
+  const grantLicense = () => {
     if (selectedUser && licenseToGrant) {
       const userIndex = users.findIndex(u => u.id === selectedUser!.id);
       if (userIndex !== -1) {
@@ -60,20 +55,20 @@
       grantMachineLimit = 0;
       grantApiKeyLimit = 0;
     }
-  }
+  };
 
-  function updateOrderStatus(orderId: string, newStatus: string) {
+  const updateOrderStatus = (orderId: string, newStatus: string) => {
     const orderIndex = licenseOrders.findIndex(order => order.id === orderId);
     if (orderIndex !== -1) {
       licenseOrders[orderIndex].status = newStatus;
       // Need Backend
       alert(`License order ${orderId} status updated to ${newStatus}.`);
     }
-  }
+  };
 
-  function getUserName(userId: string) {
+  const getUserName = (userId: string) => {
     return users.find(u => u.id === userId)?.name || 'Unknown User';
-  }
+  };
 </script>
 
 <div class="max-w-7xl mx-auto p-4 md:p-8">

@@ -1,21 +1,9 @@
 <script lang="ts">
-  import { goto } from '$app/navigation';
-  import { onMount } from 'svelte';
   import { page } from '$app/stores';
   import { spring } from 'svelte/motion';
+  import { goto } from '$app/navigation';
 
-  onMount(() => {
-    const isLoggedIn = sessionStorage.getItem('isLoggedIn');
-    const isSuperUser = sessionStorage.getItem('isSuperUser');
-    if (isLoggedIn !== 'true' || isSuperUser !== 'true') {
-      goto('/login');
-    }
-  });
-
-  function logout() {
-    sessionStorage.clear();
-    goto('/login');
-  }
+  let { children } = $props();
 
   const tabs = [
     { name: 'Manage', path: '/manage' },
@@ -28,7 +16,7 @@
 
   let linkElements: (HTMLAnchorElement | null)[] = [];
 
-  $: {
+  $effect(() => {
     const activeTabIndex = tabs.findIndex(tab => $page.url.pathname.startsWith(tab.path));
     if (activeTabIndex !== -1) {
       const activeElement = linkElements[activeTabIndex];
@@ -39,6 +27,11 @@
         });
       }
     }
+  });
+
+  async function logout() {
+    await fetch('/logout', { method: 'POST' });
+    goto('/login');
   }
 </script>
 
@@ -57,12 +50,12 @@
           {tab.name}
         </a>
       {/each}
-      <button on:click={logout} class="nav-link p-4 rounded-lg transition-colors duration-200 text-neutral-400 hover:text-white">Logout</button>
+      <button onclick={logout} class="nav-link p-4 rounded-lg transition-colors duration-200 text-neutral-400 hover:text-white">Logout</button>
     </nav>
   </aside>
 
   <main class="flex-1 ml-80 p-8">
-    <slot />
+    {@render children()}
   </main>
 </div>
 

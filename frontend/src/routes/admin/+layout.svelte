@@ -1,15 +1,8 @@
 <script lang="ts">
   import { page } from '$app/stores';
-  import { goto } from '$app/navigation';
-  import { onMount } from 'svelte';
   import { spring } from 'svelte/motion';
 
-  onMount(() => {
-    const isLoggedIn = document.cookie.includes('isLoggedIn=true');
-    if (!isLoggedIn) {
-      goto('/login');
-    }
-  });
+  let { children } = $props();
 
   const tabs = [
     { name: 'Account Settings', path: '/admin/account' },
@@ -26,7 +19,7 @@
 
   let linkElements: (HTMLAnchorElement | null)[] = [];
 
-  $: {
+  $effect(() => {
     const activeTabIndex = tabs.findIndex(tab => $page.url.pathname.startsWith(tab.path));
     if (activeTabIndex !== -1) {
       const activeElement = linkElements[activeTabIndex];
@@ -37,7 +30,7 @@
         });
       }
     }
-  }
+  });
 </script>
 
 <div class="flex">
@@ -59,7 +52,7 @@
   </aside>
 
   <main class="flex-1 ml-80 p-8">
-    <slot />
+    {@render children()}
   </main>
 </div>
 

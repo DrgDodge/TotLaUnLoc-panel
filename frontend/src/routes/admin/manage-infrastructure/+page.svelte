@@ -19,40 +19,40 @@
   let showModal = $state(false);
   let modalApiKey = $state('');
 
-  function generateApiKey() {
+  const generateApiKey = () => {
     if (apiKeys.length < apiKeyLimit) {
       newApiKey = crypto.randomUUID();
     } else {
       alert('API key limit reached.');
     }
-  }
+  };
 
-  function addApiKey() {
+  const addApiKey = () => {
     if (newApiKey && newApiKeyNickname) {
       apiKeys.push({ key: newApiKey, nickname: newApiKeyNickname });
       newApiKey = '';
       newApiKeyNickname = '';
     }
-  }
+  };
 
-  function copyToClipboard(text: string) {
+  const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text).then(() => {
       alert('API Key copied to clipboard!');
     });
-  }
+  };
 
-  function showApiKeyModal(key: string) {
+  const showApiKeyModal = (key: string) => {
     modalApiKey = key;
     showModal = true;
-  }
+  };
 
-  function checkForNewMachines() {
+  const checkForNewMachines = () => {
     // Request backend
     alert('Checking for new machines...');
-  }
+  };
 
   // To be linked to real backend
-  function addTestMachine() {
+  const addTestMachine = () => {
     if (selectedApiKey) {
       const newMachine = {
         id: `machine-${Math.random().toString(36).substring(2, 7)}`,
@@ -63,7 +63,7 @@
     } else {
       alert('Please select an API key first.');
     }
-  }
+  };
 
   const filteredMachines = $derived(machines.filter(m => m.apiKey === selectedApiKey));
 </script>

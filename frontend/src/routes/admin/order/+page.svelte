@@ -1,7 +1,7 @@
 <script lang="ts">
-  let customPackage = false;
-  let devices = 0;
-  let keys = 0;
+  let customPackage = $state(false);
+  let devices = $state(0);
+  let keys = $state(0);
 
   function selectPackage(d: number, k: number) {
     devices = d;
@@ -25,10 +25,10 @@
     <div class="bg-neutral-800 p-8 rounded-xl shadow-2xl border border-neutral-700">
       <h3 class="text-3xl font-semibold mb-4 text-purple-300">Select a Package</h3>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <button on:click={() => selectPackage(30, 3)} class="p-4 border rounded-lg bg-neutral-900 hover:bg-neutral-700 transition-colors duration-200">30 Devices, 3 Keys</button>
-        <button on:click={() => selectPackage(100, 10)} class="p-4 border rounded-lg bg-neutral-900 hover:bg-neutral-700 transition-colors duration-200">100 Devices, 10 Keys</button>
-        <button on:click={() => selectPackage(500, 50)} class="p-4 border rounded-lg bg-neutral-900 hover:bg-neutral-700 transition-colors duration-200">500 Devices, 50 Keys</button>
-        <button on:click={selectCustomPackage} class="p-4 border rounded-lg bg-neutral-900 hover:bg-neutral-700 transition-colors duration-200">Custom</button>
+        <button onclick={() => selectPackage(30, 3)} class="p-4 border rounded-lg bg-neutral-900 hover:bg-neutral-700 transition-colors duration-200">30 Devices, 3 Keys</button>
+        <button onclick={() => selectPackage(100, 10)} class="p-4 border rounded-lg bg-neutral-900 hover:bg-neutral-700 transition-colors duration-200">100 Devices, 10 Keys</button>
+        <button onclick={() => selectPackage(500, 50)} class="p-4 border rounded-lg bg-neutral-900 hover:bg-neutral-700 transition-colors duration-200">500 Devices, 50 Keys</button>
+        <button onclick={selectCustomPackage} class="p-4 border rounded-lg bg-neutral-900 hover:bg-neutral-700 transition-colors duration-200">Custom</button>
       </div>
     </div>
 
