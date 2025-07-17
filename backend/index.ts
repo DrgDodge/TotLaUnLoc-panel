@@ -3,7 +3,7 @@ import PocketBase from 'pocketbase';
 
 const pb = new PocketBase('http://127.0.0.1:8090');
 
-await pb.collection("_superusers").authWithPassword("mimiionescu07@gmail.com", "Khgprksz2YugCjB")
+await pb.collection("_superusers").authWithPassword("mimiionescu07@gmail.com", "12345678")
 
 let superusers = await pb.collection("_superusers").getList().then(x => {
   return x.items.map(y => y = y.email);

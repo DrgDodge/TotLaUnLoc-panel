@@ -1,14 +1,24 @@
 # use the official Bun image
 # see all versions at https://hub.docker.com/r/oven/bun/tags
-FROM oven/bun:1 AS base
+FROM oven/bun:1-alpine AS base
 WORKDIR /app
+ARG PB_VERSION=0.28.4
 
 # install dependencies into temp directory
 # this will cache them and speed up future builds
 FROM base AS install
-RUN mkdir -p /temp/dev
+RUN \
+  mkdir -p /temp/dev && \
+  mkdir -p /temp/pb && \
+  apk add --no-cache unzip ca-certificates
 COPY package.json bun.lock /temp/dev/
-RUN cd /temp/dev && bun install --frozen-lockfile
+ADD https://github.com/pocketbase/pocketbase/releases/download/v${PB_VERSION}/pocketbase_${PB_VERSION}_linux_amd64.zip /tmp/pb/pb.zip
+
+RUN \
+  cd /temp/dev && \
+  bun install --frozen-lockfile && \
+  cd /tmp/pb && \
+  unzip /tmp/pb/pb.zip -d /app/db
 
 # install with --production (exclude devDependencies)
 RUN mkdir -p /temp/prod
@@ -24,11 +34,13 @@ COPY . .
 # copy production dependencies and source code into final image
 FROM base AS release
 
-RUN touch db.sqlite
+RUN /app/db/pocketbase superuser upsert $SUPERUSER_EMAIL $SUPERUSER_PASSWORD
 
 COPY --from=install /temp/prod/node_modules node_modules
 COPY --from=prerelease /app/index.ts .
 COPY --from=prerelease /app/package.json .
+
+CMD ["db/pocketbase", "serve", "--http=0.0.0.0:8080"]
 
 # run the app
 USER bun
