@@ -3,7 +3,13 @@ import PocketBase from 'pocketbase';
 
 const pb = new PocketBase(process.env.DATABASE_URL);
 
-await pb.collection("_superusers").authWithPassword("mimiionescu07@gmail.com", "12345678")
+const superuser_email = process.env.SUPERUSER_EMAIL
+const superuser_pass = process.env.SUPERUSER_PASS
+
+if (!superuser_email || !superuser_pass) 
+  throw new Error("SUPERUSER_EMAIL or SUPERUSER_PASS environment variables do not exist!");
+
+await pb.collection("_superusers").authWithPassword(superuser_email, superuser_pass);
 
 let superusers = await pb.collection("_superusers").getList().then(x => {
   return x.items.map(y => y = y.email);
