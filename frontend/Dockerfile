@@ -28,6 +28,8 @@ RUN bun run build
 
 # copy production dependencies and source code into final image
 FROM base AS release
+ENV NODE_ENV=production
+
 COPY --from=prerelease /app/build build
 
 # run the app
