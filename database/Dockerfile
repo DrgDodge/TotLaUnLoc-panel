@@ -10,7 +10,10 @@ RUN apk add --no-cache \
 ADD https://github.com/pocketbase/pocketbase/releases/download/v${PB_VERSION}/pocketbase_${PB_VERSION}_linux_amd64.zip /tmp/pb.zip
 RUN unzip /tmp/pb.zip -d /pb/
 
-RUN /pb/pocketbase superuser upsert mimiionescu07@gmail.com 12345678
+ARG SUPERUSER_EMAIL \
+    SUPERUSER_PASS
+
+RUN /pb/pocketbase superuser upsert ${SUPERUSER_EMAIL} ${SUPERUSER_PASS}
 
 # uncomment to copy the local pb_migrations dir into the image
 # COPY ./pb_migrations /pb/pb_migrations

@@ -1,0 +1,14 @@
+{
+  "userId": "string",
+  "orderNo": "number", // 0000001
+  "licenseType": "standard|pro",
+  "machineLimit": "number",
+  "apiLimit": "number",
+  "status": "created|pending|completed|canceled",
+  "contact": {
+    "email": "string",
+    "phoneNo": "string",
+    "countyCode": "string",
+    "country": "string"
+  }
+}

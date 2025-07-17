@@ -1,0 +1,8 @@
+{
+  "organization": "string",
+  "email": "string",
+  "password": "string",
+  "license": "standard|pro",
+  "machineLimit": "number",
+  "apiLimit": "number"
+}
