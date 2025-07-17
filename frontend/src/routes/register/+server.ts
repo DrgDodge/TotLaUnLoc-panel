@@ -1,7 +1,7 @@
 import { json } from '@sveltejs/kit';
 import { io } from 'socket.io-client';
 
-const socket = io('http://127.0.0.1:7355');
+const socket = io(process.env.BACKEND_URL);
 
 export async function POST({ request }) {
   const { username, password } = await request.json();
