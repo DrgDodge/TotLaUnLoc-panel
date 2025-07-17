@@ -15,7 +15,7 @@ services:
     volumes:
       - /srv/totlaunloc/db:/pb/pb_data
     networks:
-      - pocketbase
+      - proxy
     restart: unless-stopped
 
   frontend:
