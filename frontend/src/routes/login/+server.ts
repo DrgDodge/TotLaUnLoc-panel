@@ -1,12 +1,12 @@
 import { json } from '@sveltejs/kit';
 import { io } from 'socket.io-client';
 
-const apiUrl = process.env.API_URL || "https://api.totlaunloc.top";
+const apiUrl = "https://api.totlaunloc.top";
 console.log(`SvelteKit backend connecting to API at: ${apiUrl}`);
 
 const socket = io(apiUrl, {
   withCredentials: true,
-  timeout: 5000,
+  timeout: 5000, 
   reconnection: true,
   reconnectionAttempts: 3,
 });
@@ -16,7 +16,7 @@ socket.on('connect', () => {
 });
 
 socket.on('connect_error', (err) => {
-  console.error(`SvelteKit backend connection error: ${err.message}`, err.stack);
+  console.error(`SvelteKit backend connection error: ${err.message}`);
 });
 
 socket.on('disconnect', (reason) => {
@@ -33,7 +33,7 @@ export async function POST({ request, cookies }) {
     }, 10000);
 
     if (!socket.connected) {
-        console.warn('Socket was not connected. Attempting to connect before emitting auth event.');
+        console.log('Socket not connected, relying on auto-reconnect.');
     }
 
     socket.emit('auth', { username, password }, (res: { authentificated: boolean, isSuperUser: boolean }) => {
