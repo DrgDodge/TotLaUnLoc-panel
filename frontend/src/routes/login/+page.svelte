@@ -2,10 +2,6 @@
   import { goto } from "$app/navigation";
   import { io } from "socket.io-client";
 
-  const socket = io("https://api.totlaunloc.top", {
-    withCredentials: true,
-  });
-
   let username = "";
   let password = "";
 
