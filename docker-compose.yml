@@ -5,6 +5,7 @@ services:
     environment:
       - SUPERUSER_EMAIL=
       - SUPERUSER_PASS=
+      - ALLOWED_ORIGINS=https://totlaunloc.top,http://localhost:5573
     networks:
       - proxy
     restart: unless-stopped
@@ -27,6 +28,7 @@ services:
     build: https://github.com/DrgDodge/TotLaUnLoc-panel.git#main:frontend
     environment:
       - PORT=5573
+      - API_URL=http://backend:7355
     networks:
       - proxy
     restart: unless-stopped

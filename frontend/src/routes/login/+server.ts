@@ -1,7 +1,7 @@
 import { json } from '@sveltejs/kit';
 import { io } from 'socket.io-client';
 
-const socket = io("https://api.totlaunloc.top", {
+const socket = io(process.env.API_URL || "https://api.totlaunloc.top", {
   withCredentials: true
 });
 
