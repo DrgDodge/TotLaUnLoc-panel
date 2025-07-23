@@ -25,7 +25,23 @@ const io = new Server(PORT, {
 });
 console.log(`Started server on port ${PORT}!`);
 
+const adminNamespace = io.of("/admin");
+
+adminNamespace.on("connection", (socket) => {
+    console.log("Admin connected");
+});
+
 io.on("connection", (socket) => {
+    console.log(`Client connected: ${socket.id}`);
+
+    socket.on("heartbeat", () => {
+        adminNamespace.emit("heartbeat", { socketId: socket.id, status: "ok" });
+    });
+
+    socket.on("disconnect", () => {
+        console.log(`Client disconnected: ${socket.id}`);
+        adminNamespace.emit("disconnect_signal", { socketId: socket.id });
+    });
 
   socket.on("register", async (data, callback) => {
     try {
