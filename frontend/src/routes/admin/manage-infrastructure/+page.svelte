@@ -2,9 +2,15 @@
   import { fly } from "svelte/transition";
 
   import { io } from "socket.io-client";
-  const socket = io("/admin", {
+
+  const apiUrl = "http://backend:7355";
+  console.log(`SvelteKit backend connecting to API at: ${apiUrl}`);
+
+  const socket = io(apiUrl, {
     withCredentials: true,
-    path: "/socket.io",
+    timeout: 5000,
+    reconnection: true,
+    reconnectionAttempts: 3,
   });
 
   socket.on("heartbeat", (data) => {
