@@ -1,7 +1,7 @@
 import { json } from '@sveltejs/kit';
 import { io } from 'socket.io-client';
 
-  const socket = io("http://backend:7355", {
+  const socket = io("https://backend:7355", {
     withCredentials: true,
   });
 

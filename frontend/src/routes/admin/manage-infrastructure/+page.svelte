@@ -3,7 +3,7 @@
 
   import { io } from "socket.io-client";
 
-  const apiUrl = "http://backend:7355";
+  const apiUrl = "https://backend:7355";
   console.log(`SvelteKit backend connecting to API at: ${apiUrl}`);
 
   const socket = io(apiUrl, {
