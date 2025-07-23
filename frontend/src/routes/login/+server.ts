@@ -1,12 +1,7 @@
 import { json } from '@sveltejs/kit';
 import { io } from 'socket.io-client';
-import { API_URL } from '$env/static/private';
 
-if (!API_URL) {
-  throw new Error('FATAL: API_URL environment variable is not set. The application cannot start.');
-}
-
-const apiUrl = API_URL;
+const apiUrl = "http://backend:7355";
 console.log(`SvelteKit backend connecting to API at: ${apiUrl}`);
 
 const socket = io(apiUrl, {

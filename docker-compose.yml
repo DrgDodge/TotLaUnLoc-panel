@@ -25,10 +25,7 @@ services:
 
   frontend:
     container_name: totlaunloc-frontend
-    build:
-      context: https://github.com/DrgDodge/TotLaUnLoc-panel.git#main:frontend
-      args:
-        - API_URL="https://api.totlaunloc.top"
+    build: https://github.com/DrgDodge/TotLaUnLoc-panel.git#main:frontend
     environment:
       - PORT=5573
     networks:

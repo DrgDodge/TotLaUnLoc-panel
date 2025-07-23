@@ -22,15 +22,9 @@ COPY --from=install /temp/dev/node_modules node_modules
 COPY . .
 
 # [optional] tests & build
-# Accept API_URL as a build argument
-ARG API_URL
-
-RUN echo "Build-time API_URL is: $API_URL"
-
 ENV NODE_ENV=production
 ENV PORT=5573
-# Set the API_URL env var directly for the build command
-RUN API_URL=$API_URL bun run build
+RUN bun run build
 
 # copy production dependencies and source code into final image
 FROM base AS release
