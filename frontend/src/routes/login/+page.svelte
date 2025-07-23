@@ -1,51 +1,79 @@
 <script lang="ts">
-  import { goto } from '$app/navigation';
-  import { io } from "socket.io-client"
+  import { goto } from "$app/navigation";
+  import { io } from "socket.io-client";
 
-  const socket = io("http://127.0.0.1:7355")
+  const socket = io("http://api.totlaunloc.top", {
+    withCredentials: true,
+  });
 
-  let username = '';
-  let password = '';
+  let username = "";
+  let password = "";
 
   async function login() {
-    const response = await fetch('/login', {
-      method: 'POST',
+    const response = await fetch("/login", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({ username, password })
+      body: JSON.stringify({ username, password }),
     });
 
     if (response.ok) {
       const { isSuperUser } = await response.json();
       if (isSuperUser) {
-        goto('/manage');
-
+        goto("/manage");
       } else {
-        goto('/admin');
+        goto("/admin");
       }
     } else {
-      alert('Invalid credentials');
+      alert("Invalid credentials");
     }
   }
 </script>
 
 <div class="flex items-center justify-center h-full bg-cover bg-center">
-  <div class="w-full max-w-md p-8 space-y-6 bg-white/10 backdrop-blur-2xl rounded-2xl shadow-2xl border border-white/20">
+  <div
+    class="w-full max-w-md p-8 space-y-6 bg-white/10 backdrop-blur-2xl rounded-2xl shadow-2xl border border-white/20"
+  >
     <h1 class="text-3xl font-bold text-center text-white">Login</h1>
     <form on:submit|preventDefault={login} class="space-y-6">
       <div>
-        <label for="username" class="block mb-2 text-sm font-medium text-gray-200">Email</label>
-        <input type="text" id="username" bind:value={username} class="w-full px-4 py-2 text-white bg-white/10 border border-white/20 rounded-lg focus:ring-blue-500 focus:border-blue-500" required>
+        <label
+          for="username"
+          class="block mb-2 text-sm font-medium text-gray-200">Email</label
+        >
+        <input
+          type="text"
+          id="username"
+          bind:value={username}
+          class="w-full px-4 py-2 text-white bg-white/10 border border-white/20 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+          required
+        />
       </div>
       <div>
-        <label for="password" class="block mb-2 text-sm font-medium text-gray-200">Password</label>
-        <input type="password" id="password" bind:value={password} class="w-full px-4 py-2 text-white bg-white/10 border border-white/20 rounded-lg focus:ring-blue-500 focus:border-blue-500" required>
+        <label
+          for="password"
+          class="block mb-2 text-sm font-medium text-gray-200">Password</label
+        >
+        <input
+          type="password"
+          id="password"
+          bind:value={password}
+          class="w-full px-4 py-2 text-white bg-white/10 border border-white/20 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+          required
+        />
       </div>
-      <button type="submit" class="w-full px-5 py-3 text-base font-medium text-center text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300">Login</button>
+      <button
+        type="submit"
+        class="w-full px-5 py-3 text-base font-medium text-center text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300"
+        >Login</button
+      >
     </form>
     <p class="text-center text-gray-300">
-      Don't have an account? <a href="/register" class="text-blue-400 hover:underline">Register here</a>
+      Don't have an account? <a
+        href="/register"
+        class="text-blue-400 hover:underline">Register here</a
+      >
     </p>
   </div>
 </div>

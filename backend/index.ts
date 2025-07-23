@@ -6,7 +6,7 @@ const pb = new PocketBase("https://db.totlaunloc.top");
 const superuser_email = process.env.SUPERUSER_EMAIL
 const superuser_pass = process.env.SUPERUSER_PASS
 
-if (!superuser_email || !superuser_pass) 
+if (!superuser_email || !superuser_pass)
   throw new Error("SUPERUSER_EMAIL or SUPERUSER_PASS environment variables do not exist!");
 
 await pb.collection("_superusers").authWithPassword("api@api.com", "QcLs9Kd9wnApRKW");
@@ -19,7 +19,9 @@ console.log(superusers)
 const PORT = 7355;
 const io = new Server(PORT, {
   cors: {
-    origin: "*"
+    origin: "http://localhost:5573",
+    methods: ["GET", "POST"],
+    credentials: true
   }
 });
 console.log(`Started server on port ${PORT}!`);
