@@ -6,24 +6,29 @@
   const apiUrl = "https://api.totlaunloc.top";
   console.log(`SvelteKit backend connecting to API at: ${apiUrl}`);
 
-  const socket = io(apiUrl, {
+  const socket = io(`${apiUrl}/admin`, {
     withCredentials: true,
     timeout: 5000,
     reconnection: true,
     reconnectionAttempts: 3,
   });
 
+  socket.on("existing_clients", (clients) => {
+    connectedSockets = clients;
+  });
+
+  socket.on("client_connected", (client) => {
+    connectedSockets.push(client);
+  });
+
   socket.on("heartbeat", (data) => {
-    connectedSockets = connectedSockets.filter(
-      (s) => s.socketId !== data.socketId,
+    connectedSockets = connectedSockets.map((s) =>
+      s.socketId === data.socketId ? { ...s, status: data.status } : s,
     );
-    connectedSockets.push(data);
   });
 
   socket.on("disconnect_signal", (data) => {
-    connectedSockets = connectedSockets.map((s) =>
-      s.socketId === data.socketId ? { ...s, status: "disconnected" } : s,
-    );
+    connectedSockets = connectedSockets.filter((s) => s.socketId !== data.socketId);
   });
 
   let connectedSockets = $state<{ socketId: string; status: string }[]>([]);

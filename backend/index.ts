@@ -27,19 +27,27 @@ console.log(`Started server on port ${PORT}!`);
 
 const adminNamespace = io.of("/admin");
 
+const connectedClients = new Map<string, { status: string }>();
+
 adminNamespace.on("connection", (socket) => {
     console.log("Admin connected");
+    socket.emit("existing_clients", Array.from(connectedClients.entries()).map(([socketId, data]) => ({ socketId, ...data })));
 });
 
 io.on("connection", (socket) => {
     console.log(`Client connected: ${socket.id}`);
+    connectedClients.set(socket.id, { status: "connected" });
+
+    adminNamespace.emit("client_connected", { socketId: socket.id, status: "connected" });
 
     socket.on("heartbeat", () => {
+        connectedClients.set(socket.id, { status: "ok" });
         adminNamespace.emit("heartbeat", { socketId: socket.id, status: "ok" });
     });
 
     socket.on("disconnect", () => {
         console.log(`Client disconnected: ${socket.id}`);
+        connectedClients.delete(socket.id);
         adminNamespace.emit("disconnect_signal", { socketId: socket.id });
     });
 
