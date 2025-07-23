@@ -1,7 +1,9 @@
 import { json } from '@sveltejs/kit';
 import { io } from 'socket.io-client';
 
-const socket = io(process.env.BACKEND_URL);
+  const socket = io("https://api.totlaunloc.top", {
+    withCredentials: true,
+  });
 
 export async function POST({ request }) {
   const { username, password } = await request.json();
