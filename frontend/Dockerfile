@@ -22,6 +22,11 @@ COPY --from=install /temp/dev/node_modules node_modules
 COPY . .
 
 # [optional] tests & build
+# Accept API_URL as a build argument
+ARG API_URL
+# Expose the build argument as an environment variable
+ENV API_URL=$API_URL
+
 ENV NODE_ENV=production
 ENV PORT=5573
 RUN bun run build
