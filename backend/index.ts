@@ -1,7 +1,7 @@
 import { Server, Socket } from "socket.io";
 import PocketBase from 'pocketbase';
 
-const pb = new PocketBase("http://127.0.0.1:8080");
+const pb = new PocketBase("http://127.0.0.1:8090");
 
 const superuser_email = process.env.SUPERUSER_EMAIL
 const superuser_pass = process.env.SUPERUSER_PASS
