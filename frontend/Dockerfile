@@ -25,6 +25,8 @@ COPY . .
 # Accept API_URL as a build argument
 ARG API_URL
 
+RUN echo "Build-time API_URL is: $API_URL"
+
 ENV NODE_ENV=production
 ENV PORT=5573
 # Set the API_URL env var directly for the build command

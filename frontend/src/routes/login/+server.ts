@@ -1,12 +1,17 @@
 import { json } from '@sveltejs/kit';
 import { io } from 'socket.io-client';
+import { API_URL } from '$env/static/private';
 
-const apiUrl = "https://api.totlaunloc.top";
+if (!API_URL) {
+  throw new Error('FATAL: API_URL environment variable is not set. The application cannot start.');
+}
+
+const apiUrl = API_URL;
 console.log(`SvelteKit backend connecting to API at: ${apiUrl}`);
 
 const socket = io(apiUrl, {
   withCredentials: true,
-  timeout: 5000, 
+  timeout: 5000,
   reconnection: true,
   reconnectionAttempts: 3,
 });
@@ -33,12 +38,12 @@ export async function POST({ request, cookies }) {
     }, 10000);
 
     if (!socket.connected) {
-        console.log('Socket not connected, relying on auto-reconnect.');
+      console.log('Socket not connected, relying on auto-reconnect.');
     }
 
     socket.emit('auth', { username, password }, (res: { authentificated: boolean, isSuperUser: boolean }) => {
       clearTimeout(loginTimeout);
-      
+
       if (res && res.authentificated) {
         console.log(`Authentication successful for user: ${username}`);
         cookies.set('isLoggedIn', 'true', { path: '/', httpOnly: true, secure: process.env.NODE_ENV === 'production' });
