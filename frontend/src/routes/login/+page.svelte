@@ -2,7 +2,7 @@
   import { goto } from '$app/navigation';
   import { io } from "socket.io-client"
 
-  const socket = io(process.env.BACKEND_URL)
+  const socket = io("http://127.0.0.1:7355")
 
   let username = '';
   let password = '';

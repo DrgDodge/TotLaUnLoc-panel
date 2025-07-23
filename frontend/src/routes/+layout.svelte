@@ -40,6 +40,10 @@
 				activeLinkElement = aboutLink;
 			} else if ($page.url.pathname === "/download") {
 				activeLinkElement = downloadLink;
+			} else if ($page.url.pathname === "/download/linux") {
+				activeLinkElement = downloadLink;
+			} else if ($page.url.pathname === "/download/windows") {
+				activeLinkElement = downloadLink;
 			} else if ($page.url.pathname.startsWith("/admin")) {
 				activeLinkElement = adminLink;
 			} else if ($page.url.pathname === "/pricing") {
