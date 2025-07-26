@@ -19,7 +19,7 @@ console.log(superusers)
 const PORT = 7355;
 const io = new Server(PORT, {
   cors: {
-    origin: (process.env.ALLOWED_ORIGINS || "http://localhost:5573,https://totlaunloc.top").split(","),
+    origin: "*",
     credentials: true
   }
 });
