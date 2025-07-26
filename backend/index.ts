@@ -19,8 +19,7 @@ console.log(superusers)
 const PORT = 7355;
 const io = new Server(PORT, {
   cors: {
-    origin: "*",
-    credentials: true
+    origin: "*"
   }
 });
 console.log(`Started server on port ${PORT}!`);
