@@ -1,7 +1,7 @@
-import type { LayoutServerLoad } from './$types';
+// import type { LayoutServerLoad } from './$types';
 
-export const load: LayoutServerLoad = async ({ locals }) => {
-  return {
-    isSuperUser: locals.user?.isSuperUser || false,
-  };
-};
+// export const load: LayoutServerLoad = async ({ locals }) => {
+//   return {
+//     isSuperUser: locals.user?.isSuperUser || false,
+//   };
+// };

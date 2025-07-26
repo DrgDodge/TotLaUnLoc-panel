@@ -1,10 +1,14 @@
-import { json } from '@sveltejs/kit';
-import type { RequestHandler } from './$types';
+// import { json } from '@sveltejs/kit';
+// import type { RequestHandler } from './$types';
+// import { pb } from '$lib/utils';
 
-export const GET: RequestHandler = async ({ locals }) => {
-  if (!locals.user?.isSuperUser) {
-    return new Response(null, { status: 403 });
-  }
+// export const GET: RequestHandler = async () => {
+//   const authStore = pb.authStore
+//   if (!authStore.isValid) return new Response(null, { status: 404 })
+//   else {
+//     if (!authStore.record) return new Response(null, { status: 404 })
 
-  return json({ message: 'Welcome, Superuser! This is the manage page.' });
-};
+//     if (!authStore.record.admin) return new Response(null, { status: 404 })
+//     else return new Response(null, { status: 200 });
+//   }
+// };

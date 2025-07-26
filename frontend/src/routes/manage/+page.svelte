@@ -3,7 +3,9 @@
   import { goto } from '$app/navigation';
   import { onMount } from 'svelte';
 
-  onMount(() => {
+
+  onMount(async () => {
+
     const hasVisited = sessionStorage.getItem('managePageVisited');
     if (!hasVisited) {
       sessionStorage.setItem('managePageVisited', 'true');

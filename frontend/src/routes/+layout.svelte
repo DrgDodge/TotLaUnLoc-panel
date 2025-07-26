@@ -6,9 +6,21 @@
 	import { goto } from "$app/navigation";
 	import version from "./version.json";
 	import { quintOut } from "svelte/easing";
-	import type { LayoutData } from "./$types";
+  import { pb } from "$lib/utils";
+  import { onMount } from "svelte";
 
-	let { children, data }: { children: any; data: LayoutData } = $props();
+  // const authStore = pb.authStore
+  let isAdmin = $state(false);
+
+  // onMount(async () => {
+  //   await pb.collection("users").authRefresh().catch(() => { /*user not logged*/ })
+
+  //   if (authStore.record) {
+  //     isAdmin = authStore.record.admin
+  //   }
+  // })
+
+	let { children }: { children: any } = $props();
 
 	let homeLink: HTMLAnchorElement;
 	let aboutLink: HTMLAnchorElement;
@@ -44,7 +56,7 @@
 				activeLinkElement = adminLink;
 			} else if ($page.url.pathname === "/pricing") {
 				activeLinkElement = pricingLink;
-			} else if ($page.url.pathname === "/manage" && data.isSuperUser) {
+			} else if ($page.url.pathname === "/manage" && isAdmin) {
 				activeLinkElement = manageLink;
 			} else if ($page.url.pathname === "/login") {
 				activeLinkElement = adminLink;
@@ -70,7 +82,7 @@
 
 	$effect(() => {
 		if (homeLink && aboutLink && downloadLink && pricingLink && adminLink) {
-			if (data.isSuperUser) {
+			if (isAdmin) {
 				// Only check manageLink if it's supposed to be visible
 				if (manageLink) {
 					updateIndicatorPosition();
@@ -90,8 +102,8 @@
 			class="z-50 bg-neutral-900/30 backdrop-blur-lg rounded-full p-4 shadow-lg flex items-center justify-between border border-neutral-700 transition-all duration-1000 ease-in-out"
 			style={
 				($page.url.pathname.startsWith("/admin") || $page.url.pathname.startsWith("/manage")) && showLogoutButton
-					? (data.isSuperUser ? "width: 715px" : "width: 625px")
-					: (data.isSuperUser ? "width: 625px" : "width: 535px")
+					? (isAdmin ? "width: 715px" : "width: 625px")
+					: (isAdmin ? "width: 625px" : "width: 535px")
 			}
 		>
 			<nav class="px-4 flex relative">
@@ -119,7 +131,7 @@
 					href="/pricing"
 					class="nav-link text-neutral-300 hover:text-blue-400 transition-colors duration-200 text-lg font-medium px-4 py-2"
 					>Pricing</a>
-				{#if data.isSuperUser}
+				{#if isAdmin}
 					<a
 						transition:fly={{ x: 20, duration: 500, easing: quintOut }}
 						bind:this={manageLink}
@@ -132,7 +144,8 @@
 					bind:this={adminLink}
 					href={navLinkHref}
 					class="nav-link text-neutral-300 hover:text-blue-400 transition-colors duration-200 text-lg font-medium px-4 py-2 whitespace-nowrap"
-					>{navLinkText}</a>
+					>{navLinkText}
+        </a>
 			</nav>
 			{#if $page.url.pathname.startsWith("/admin") || $page.url.pathname.startsWith("/manage")}
 				{#if showLogoutButton}
@@ -141,12 +154,8 @@
 					>
 						<button
 						onclick={async () => {
-							await fetch('/logout', { method: 'POST' });
-							sessionStorage.clear();
-							showLogoutButton = false;
-							setTimeout(() => {
-								location.reload();
-							}, 500);
+              pb.authStore.clear()
+              location.reload()
 						}}
 						class="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-full transition-colors duration-100"
 					>

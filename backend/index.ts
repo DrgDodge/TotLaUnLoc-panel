@@ -14,7 +14,7 @@ await pb.collection("_superusers").authWithPassword(superuser_email, superuser_p
 let superusers = await pb.collection("_superusers").getList().then(x => {
   return x.items.map(y => y = y.email);
 })
-console.log(superusers)
+
 
 const PORT = 7355;
 const io = new Server(PORT, {
@@ -40,40 +40,5 @@ io.on("connection", (socket) => {
       callback({ success: false, message: e.message });
     }
   });
-
-  socket.on("auth", async (data, callback) => {
-
-    console.log(data)
-
-    let userAuth = {
-      authentificated: false,
-      isSuperUser: false
-    }
-
-    if (superusers.find(email => email == data.username)) {
-
-      const authData = await pb.collection("_superusers").authWithPassword(data.username, data.password)
-        .then(() => { return true })
-        .catch(() => { return false })
-
-      if (!authData) return callback(userAuth);
-
-      userAuth.authentificated = true
-      userAuth.isSuperUser = true
-
-      return callback(userAuth);
-    }
-
-    const authData = await pb.collection("users").authWithPassword(data.username, data.password)
-      .then(() => { return true })
-      .catch(() => { return false })
-
-    if (!authData) return callback(userAuth);
-
-    userAuth.authentificated = true
-
-    return callback(userAuth);
-
-  })
 
 });

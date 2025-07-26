@@ -1,32 +1,24 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
-  import { io } from "socket.io-client"
-
-  const socket = io(process.env.BACKEND_URL)
+  import { pb } from '$lib/utils';
 
   let username = '';
   let password = '';
 
   async function login() {
-    const response = await fetch('/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ username, password })
-    });
 
-    if (response.ok) {
-      const { isSuperUser } = await response.json();
-      if (isSuperUser) {
-        goto('/manage');
+    try {
+      const auth = await pb.collection("users").authWithPassword(username, password);
 
+      if (auth.record.admin) {
+        goto('/manage')
       } else {
-        goto('/admin');
+        goto('/admin')
       }
-    } else {
-      alert('Invalid credentials');
+    } catch (error) {
+      alert("Invalid Credentials!");
     }
+
   }
 </script>
 
