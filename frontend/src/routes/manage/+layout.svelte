@@ -30,6 +30,7 @@
   });
 
   async function logout() {
+    sessionStorage.removeItem('manage_reloaded');
     await fetch('/logout', { method: 'POST' });
     goto('/login');
   }

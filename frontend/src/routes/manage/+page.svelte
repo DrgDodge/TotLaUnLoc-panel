@@ -4,11 +4,9 @@
   import { onMount } from 'svelte';
 
 
-  onMount(async () => {
-
-    const hasVisited = sessionStorage.getItem('managePageVisited');
-    if (!hasVisited) {
-      sessionStorage.setItem('managePageVisited', 'true');
+  onMount(() => {
+    if (!sessionStorage.getItem('manage_reloaded')) {
+      sessionStorage.setItem('manage_reloaded', 'true');
       location.reload();
     }
   });
