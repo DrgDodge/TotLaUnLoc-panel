@@ -23,10 +23,10 @@
   });
 
   socket.on("heartbeat", (data) => {
+    console.log(data);
     connectedSockets = connectedSockets.map((s) =>
       s.socketId === data.socketId ? { ...s, status: data.status } : s,
     );
-    console.log(connectedSockets);
   });
 
   socket.on("disconnect_signal", (data) => {
@@ -98,8 +98,6 @@
     data.licenses = $state.snapshot(licenses);
 
     const record = await pb.collection("users").update(pb.authStore.record!.id, data);
-
-    console.log(record)
   };
 
   const copyToClipboard = (text: string) => {

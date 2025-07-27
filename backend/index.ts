@@ -40,7 +40,8 @@ io.on("connection", (socket) => {
 
     adminNamespace.emit("client_connected", { socketId: socket.id, status: "connected" });
 
-    socket.on("heartbeat", () => {
+    socket.on("heartbeat", data => {
+        console.log(data);
         connectedClients.set(socket.id, { status: "ok" });
         adminNamespace.emit("heartbeat", { socketId: socket.id, status: "ok" });
     });
