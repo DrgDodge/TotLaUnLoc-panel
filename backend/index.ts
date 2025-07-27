@@ -52,8 +52,8 @@ io.on("connection", (socket) => {
             filter: 'licenses != null'
           })
           record.forEach(user => {
-            // const test = user.licenses.find((license: any) => license.apiKey == data.savedLicenseKey)
-            console.log(user, data.savedLicenseKey);
+            const test = user.licenses.find((license: any) => license.apiKey == data.savedLicenseKey)
+            console.log(user, test, data.savedLicenseKey,);
           })
         }
     });
