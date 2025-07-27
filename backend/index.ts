@@ -53,6 +53,10 @@ io.on("connection", (socket) => {
           })
           record.forEach(user => {
             const test = user.licenses.find((license: any) => license.apiKey == data.savedLicenseKey)
+            if (test) {
+              console.log(user.licenses.indexOf(test))
+              // user.licenses.
+            }
             console.log(user, test, data.savedLicenseKey,);
           })
         }
