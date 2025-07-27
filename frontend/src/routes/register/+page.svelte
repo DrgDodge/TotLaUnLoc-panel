@@ -2,11 +2,12 @@
   import { goto } from '$app/navigation';
   import { slide } from 'svelte/transition';
   import { onMount } from 'svelte';
+  import { pb } from "$lib/utils";
 
-  let username = $state('');
-  let password = $state('');
-  let confirmPassword = $state('');
-  let message = $state('');
+  let username = $state("");
+  let password = $state("");
+  let confirmPassword = $state("");
+  let message = $state("");
 
   let passwordStrength = $derived(checkPasswordStrength(password));
 
@@ -65,15 +66,15 @@
     const response = await fetch('/register', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({ username, password })
+      body: JSON.stringify({ username, password }),
     });
 
     if (response.ok) {
       message = "Registration successful! Redirecting to login...";
       setTimeout(() => {
-        goto('/login');
+        goto("/login");
       }, 2000);
     } else {
       const error = await response.text();
@@ -88,7 +89,9 @@
 </script>
 
 <div class="flex items-center justify-center h-full bg-cover bg-center">
-  <div class="w-full max-w-md p-8 space-y-6 bg-white/10 backdrop-blur-2xl rounded-2xl shadow-2xl border border-white/20">
+  <div
+    class="w-full max-w-md p-8 space-y-6 bg-white/10 backdrop-blur-2xl rounded-2xl shadow-2xl border border-white/20"
+  >
     <h1 class="text-3xl font-bold text-center text-white">Register</h1>
     <form onsubmit={handleSubmit} class="space-y-6">
       <div>
@@ -96,8 +99,17 @@
         <input type="email" id="username" bind:value={username} class="w-full px-4 py-2 text-white bg-white/10 border border-white/20 rounded-lg focus:ring-blue-500 focus:border-blue-500" required>
       </div>
       <div>
-        <label for="password" class="block mb-2 text-sm font-medium text-gray-200">Password</label>
-        <input type="password" id="password" bind:value={password} class="w-full px-4 py-2 text-white bg-white/10 border border-white/20 rounded-lg focus:ring-blue-500 focus:border-blue-500" required>
+        <label
+          for="password"
+          class="block mb-2 text-sm font-medium text-gray-200">Password</label
+        >
+        <input
+          type="password"
+          id="password"
+          bind:value={password}
+          class="w-full px-4 py-2 text-white bg-white/10 border border-white/20 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+          required
+        />
       </div>
       <div class="space-y-2">
           <div class="flex items-center space-x-2">
@@ -122,13 +134,30 @@
           </ul>
         </div>
       <div>
-        <label for="confirm-password" class="block mb-2 text-sm font-medium text-gray-200">Confirm Password</label>
-        <input type="password" id="confirm-password" bind:value={confirmPassword} class="w-full px-4 py-2 text-white bg-white/10 border border-white/20 rounded-lg focus:ring-blue-500 focus:border-blue-500" required>
+        <label
+          for="confirm-password"
+          class="block mb-2 text-sm font-medium text-gray-200"
+          >Confirm Password</label
+        >
+        <input
+          type="password"
+          id="confirm-password"
+          bind:value={confirmPassword}
+          class="w-full px-4 py-2 text-white bg-white/10 border border-white/20 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+          required
+        />
       </div>
-      <button type="submit" class="w-full px-5 py-3 text-base font-medium text-center text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300">Register</button>
+      <button
+        type="submit"
+        class="w-full px-5 py-3 text-base font-medium text-center text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300"
+        >Register</button
+      >
     </form>
     <p class="text-center text-gray-300">
-      Already have an account? <a href="/login" class="text-blue-400 hover:underline">Login here</a>
+      Already have an account? <a
+        href="/login"
+        class="text-blue-400 hover:underline">Login here</a
+      >
     </p>
     {#if message}
       <p class="mt-4 text-center text-sm text-red-400">{message}</p>
