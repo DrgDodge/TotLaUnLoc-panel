@@ -15,6 +15,8 @@ let superusers = await pb.collection("_superusers").getList().then(x => {
   return x.items.map(y => y = y.email);
 })
 
+const machineCache = new Map();
+
 
 const PORT = 7355;
 const io = new Server(PORT, {
@@ -40,9 +42,17 @@ io.on("connection", (socket) => {
 
     adminNamespace.emit("client_connected", { socketId: socket.id, status: "connected" });
 
-    socket.on("heartbeat", data => {
+    socket.on("heartbeat", async data => {
         connectedClients.set(socket.id, { status: "ok" });
         adminNamespace.emit("heartbeat", { socketId: socket.id, status: "ok", machineId: data.machineId, savedLicenseKey: data.savedLicenseKey });
+        if (!machineCache.has(data.machineId)) {
+          machineCache.set(data.machineId, data.savedLicenseKey)
+
+          const record = await pb.collection("users").getFullList({
+            filter: 'licenses != null'
+          })
+          console.log(record)
+        }
     });
 
     socket.on("disconnect", () => {
