@@ -1,7 +1,8 @@
 <script lang="ts">
   import { fly } from "svelte/transition";
-
   import { io } from "socket.io-client";
+  import { pb } from "$lib/utils";
+    import { onMount } from "svelte";
 
   const apiUrl = "https://api.totlaunloc.top";
   console.log(`SvelteKit backend connecting to API at: ${apiUrl}`);
@@ -25,26 +26,27 @@
     connectedSockets = connectedSockets.map((s) =>
       s.socketId === data.socketId ? { ...s, status: data.status } : s,
     );
+    console.log(connectedSockets);
   });
 
   socket.on("disconnect_signal", (data) => {
-    connectedSockets = connectedSockets.filter((s) => s.socketId !== data.socketId);
+    connectedSockets = connectedSockets.filter(
+      (s) => s.socketId !== data.socketId,
+    );
   });
 
   let connectedSockets = $state<{ socketId: string; status: string }[]>([]);
 
   // Test data, need backend implementation
-  const apiKeyLimit = 5;
-  let apiKeys = $state([
-    {
-      key: "a1b2c3d4-e5f6-7890-1234-567890abcdef",
-      nickname: "Production Server",
-    },
-    {
-      key: "f0e9d8c7-b6a5-4321-fedc-ba9876543210",
-      nickname: "Staging Environment",
-    },
-  ]);
+
+  let apiKeyLimit = $state(pb.authStore.record?.apiLimit || 0);
+
+  let licenses: Array<any> = $state([]);
+
+  onMount(() => {
+    licenses = pb.authStore.record!.licenses
+  })
+
   let machines = $state([
     {
       id: "machine-001",
@@ -65,24 +67,39 @@
 
   let newApiKey = $state("");
   let newApiKeyNickname = $state("");
-  let selectedApiKey = $state(apiKeys[0]?.key || "");
+  let selectedApiKey = $derived("");
   let showModal = $state(false);
   let modalApiKey = $state("");
 
   const generateApiKey = () => {
-    if (apiKeys.length < apiKeyLimit) {
+    if (licenses.length < apiKeyLimit) {
       newApiKey = crypto.randomUUID();
     } else {
       alert("API key limit reached.");
     }
   };
 
-  const addApiKey = () => {
-    if (newApiKey && newApiKeyNickname) {
-      apiKeys.push({ key: newApiKey, nickname: newApiKeyNickname });
-      newApiKey = "";
-      newApiKeyNickname = "";
+  const addApiKey = async () => {
+    if (!newApiKey && !newApiKeyNickname) return;
+    let apiObject = {
+      apiKey: newApiKey,
+      apiKeyName: newApiKeyNickname,
+      machines: [],
+    };
+
+    const data = await pb.collection("users").getOne(pb.authStore.record!.id);
+
+    if (data.licenses == null) {
+      licenses = [apiObject]
+    } else {
+      licenses.push(apiObject)
     }
+
+    data.licenses = $state.snapshot(licenses);
+
+    const record = await pb.collection("users").update(pb.authStore.record!.id, data);
+
+    console.log(record)
   };
 
   const copyToClipboard = (text: string) => {
@@ -134,7 +151,7 @@
     >
       <h3 class="text-3xl font-semibold mb-4 text-purple-300">API Keys</h3>
       <p class="text-neutral-300 mb-6 leading-relaxed">
-        Generate and manage API keys. You have used {apiKeys.length} of {apiKeyLimit}
+        Generate and manage API keys. You have used {licenses.length} of {apiKeyLimit}
         keys.
       </p>
 
@@ -163,7 +180,7 @@
               Add Key
             </button>
           </div>
-        {:else if apiKeys.length < apiKeyLimit}
+        {:else if licenses.length < apiKeyLimit}
           <button
             onclick={generateApiKey}
             class="w-full bg-transparent hover:bg-neutral-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 border border-purple-600 hover:border-purple-500"
@@ -181,20 +198,20 @@
         class="border border-neutral-700 rounded-lg p-6 bg-neutral-900 min-h-[200px]"
       >
         <h4 class="text-xl font-semibold mb-4 text-neutral-200">
-          Your API Keys
+          Your API Keys {licenses.length}
         </h4>
-        {#if apiKeys.length > 0}
+        {#if licenses.length > 0}
           <ul>
-            {#each apiKeys as apiKey}
+            {#each licenses as license}
               <li
                 class="flex justify-between items-center p-2 rounded-lg hover:bg-neutral-800"
               >
                 <span class="font-mono text-sm text-neutral-300"
-                  >{apiKey.nickname}</span
+                  >{license.apiKeyName}</span
                 >
                 <div class="flex gap-2">
                   <button
-                    onclick={() => copyToClipboard(apiKey.key)}
+                    onclick={() => copyToClipboard(license.apiKey)}
                     aria-label="Copy API Key"
                     class="text-neutral-400 hover:text-white transition-colors"
                   >
@@ -209,7 +226,7 @@
                     >
                   </button>
                   <button
-                    onclick={() => showApiKeyModal(apiKey.key)}
+                    onclick={() => showApiKeyModal(license.apiKey)}
                     aria-label="Show API Key"
                     class="text-neutral-400 hover:text-white transition-colors"
                   >
@@ -291,8 +308,8 @@
           bind:value={selectedApiKey}
           class="w-full bg-neutral-900 border border-neutral-600 rounded-lg px-4 py-3 text-neutral-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
-          {#each apiKeys as apiKey}
-            <option value={apiKey.key}>{apiKey.nickname}</option>
+          {#each licenses as license}
+            <option value={license.apiKey}>{license.apiKeyName}</option>
           {/each}
         </select>
       </div>
