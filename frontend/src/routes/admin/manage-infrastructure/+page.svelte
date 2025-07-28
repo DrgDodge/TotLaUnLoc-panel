@@ -67,11 +67,6 @@
     showModal = true;
   };
 
-  const checkForNewMachines = () => {
-    // Request backend
-    alert("Checking for new machines...");
-  };
-
 </script>
 
 <div class="max-w-7xl mx-auto p-4 md:p-8">
@@ -86,7 +81,7 @@
     <div
       class="bg-neutral-800 p-8 rounded-xl shadow-2xl border border-neutral-700"
     >
-      <h3 class="text-3xl font-semibold mb-4 text-purple-300">API Keys</h3>
+      <h3 class="text-3xl font-semibold mb-4 text-purple-300">Your API Keys: {licenses.length}</h3>
       <p class="text-neutral-300 mb-6 leading-relaxed">
         Generate and manage API keys. You have used {licenses.length} of {apiKeyLimit}
         keys.
@@ -134,11 +129,9 @@
       <div
         class="border border-neutral-700 rounded-lg p-6 bg-neutral-900 min-h-[200px]"
       >
-        <h4 class="text-xl font-semibold mb-4 text-neutral-200">
-          Your API Keys {licenses.length}
-        </h4>
+
         {#if licenses.length > 0}
-          <ul>
+          <ul class="overflow-auto h-38">
             {#each licenses as license}
               <li
                 class="flex justify-between items-center p-2 rounded-lg hover:bg-neutral-800"
@@ -212,7 +205,7 @@
     >
       <h3 class="text-3xl font-semibold mb-4 text-blue-300">Machines</h3>
       <p class="text-neutral-300 mb-6 leading-relaxed">
-        Oversee all connected machines, monitor their status, and manage
+        See all connected machines, monitor their status, and manage
         pairings.
       </p>
 
@@ -237,7 +230,7 @@
         class="border border-neutral-700 rounded-lg p-6 bg-neutral-900 min-h-[200px]"
       >
         {#if licenses}
-          <ul>
+          <ul class="overflow-auto h-38">
             {#each licenses as license}
               {#if license.apiKey == selectedApiKey}
                 {#each license.machines as machine}
@@ -265,12 +258,6 @@
         {/if}
       </div>
       <div class="flex gap-4 mt-8">
-        <button
-          onclick={checkForNewMachines}
-          class="w-full flex items-center justify-center gap-2 bg-transparent hover:bg-neutral-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 border border-green-600 hover:border-green-500"
-        >
-          Check for New Machines
-        </button>
       </div>
     </div>
   </div>
