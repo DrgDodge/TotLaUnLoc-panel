@@ -321,7 +321,7 @@
       >
         {#if licenses}
           <ul>
-            {licenses}
+            {JSON.stringify(licenses)}
           </ul>
           <!-- {licenses} -->
           <!-- <ul>
