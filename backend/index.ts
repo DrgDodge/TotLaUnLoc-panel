@@ -55,6 +55,7 @@ io.on("connection", (socket) => {
         const test = user.licenses.find((license: any) => license.apiKey == data.savedLicenseKey)
         // console.log("test", test);
         if (test) {
+          console.log(test);
           const index = user.licenses.indexOf(test)
 
           const findMachine = user.licenses[index].machines.find((machine: any) => machine.id == data.machineId)
