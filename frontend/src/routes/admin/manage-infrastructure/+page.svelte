@@ -107,8 +107,14 @@
   };
 
 
-    const deleteKey = () => {
+    const deleteKey = async (licenseName: string) => {
       alert("API Key deleted!");
+      const data = await pb.collection("users").getOne(pb.authStore.record!.id);
+      
+      data.licenses.map((x: any) => x.apiKeyName == licenseName)
+      
+      console.log(data);
+
   };
 
   const showApiKeyModal = (key: string) => {
@@ -217,7 +223,7 @@
                 >
                 <div class="flex gap-2">
                   <button
-                    onclick={() => deleteKey()}
+                    onclick={() => deleteKey(license.apiKeyName)}
                     aria-label="Copy API Key"
                     class="text-neutral-400 hover:text-white transition-colors"
                   >
