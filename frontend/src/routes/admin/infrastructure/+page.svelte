@@ -21,9 +21,10 @@
 
   socket.on("heartbeat", (data) => {
     console.log(data);
-    connectedSockets.map((s) =>
-      s.socketId === data.socketId ? { ...s, status: data.status } : s,
-    );
+    connectedSockets = data;
+    // connectedSockets.map((s) =>
+    //   s.socketId === data.socketId ? { ...s, status: data.status } : s,
+    // );
   });
 
   socket.on("disconnect_signal", (data) => {
