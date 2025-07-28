@@ -51,6 +51,7 @@ io.on("connection", (socket) => {
       const record = await pb.collection("users").getFullList({
         filter: 'licenses != null'
       })
+      console.log("test")
       record.forEach(async user => {
         const test = user.licenses.find((license: any) => license.apiKey == data.savedLicenseKey)
         console.log("test", test);
