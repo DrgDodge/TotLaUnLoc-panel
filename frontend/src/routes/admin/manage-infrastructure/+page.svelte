@@ -58,10 +58,11 @@
   const deleteKey = async (key: string) => {
     const data = await pb.collection("users").getOne(pb.authStore.record!.id);
 
-    data.licenses.map((x: any) => x.apiKey != key);
+    const mappedLicenses = data.licenses.map((x: any) => x.apiKey != key);
 
     console.log(data);
     console.log(key);
+    console.log(mappedLicenses);
     await pb.collection("users").update(pb.authStore.record!.id, data);
   };
 
