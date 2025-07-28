@@ -1,8 +1,7 @@
 <script lang="ts">
-  import { goto } from '$app/navigation';
-  import { slide } from 'svelte/transition';
-  import { onMount } from 'svelte';
-  import { pb } from "$lib/utils";
+  import { goto } from "$app/navigation";
+  import { slide } from "svelte/transition";
+  import { onMount } from "svelte";
 
   let username = $state("");
   let password = $state("");
@@ -17,10 +16,18 @@
   let showSpecialChar = $state(false);
 
   onMount(() => {
-    setTimeout(() => { showLength = true; }, 200);
-    setTimeout(() => { showUppercase = true; }, 400);
-    setTimeout(() => { showNumber = true; }, 600);
-    setTimeout(() => { showSpecialChar = true; }, 800);
+    setTimeout(() => {
+      showLength = true;
+    }, 200);
+    setTimeout(() => {
+      showUppercase = true;
+    }, 400);
+    setTimeout(() => {
+      showNumber = true;
+    }, 600);
+    setTimeout(() => {
+      showSpecialChar = true;
+    }, 800);
   });
 
   function checkPasswordStrength(password: string) {
@@ -40,7 +47,7 @@
       hasNumber,
       hasSpecialChar,
       hasSufficientLength,
-      score
+      score,
     };
   }
 
@@ -63,8 +70,8 @@
       return;
     }
 
-    const response = await fetch('/register', {
-      method: 'POST',
+    const response = await fetch("/register", {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
@@ -95,8 +102,17 @@
     <h1 class="text-3xl font-bold text-center text-white">Register</h1>
     <form onsubmit={handleSubmit} class="space-y-6">
       <div>
-        <label for="username" class="block mb-2 text-sm font-medium text-gray-200">Email</label>
-        <input type="email" id="username" bind:value={username} class="w-full px-4 py-2 text-white bg-white/10 border border-white/20 rounded-lg focus:ring-blue-500 focus:border-blue-500" required>
+        <label
+          for="username"
+          class="block mb-2 text-sm font-medium text-gray-200">Email</label
+        >
+        <input
+          type="email"
+          id="username"
+          bind:value={username}
+          class="w-full px-4 py-2 text-white bg-white/10 border border-white/20 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+          required
+        />
       </div>
       <div>
         <label
@@ -112,27 +128,67 @@
         />
       </div>
       <div class="space-y-2">
-          <div class="flex items-center space-x-2">
-            <div class="w-1/4 h-2 rounded-full {passwordStrength.score >= 1 ? 'bg-green-500' : 'bg-gray-600'}"></div>
-            <div class="w-1/4 h-2 rounded-full {passwordStrength.score >= 2 ? 'bg-green-500' : 'bg-gray-600'}"></div>
-            <div class="w-1/4 h-2 rounded-full {passwordStrength.score >= 3 ? 'bg-green-500' : 'bg-gray-600'}"></div>
-            <div class="w-1/4 h-2 rounded-full {passwordStrength.score >= 4 ? 'bg-green-500' : 'bg-gray-600'}"></div>
-          </div>
-          <ul class="text-xs text-gray-300 space-y-1">
-            <li class="password-criteria {showLength ? 'visible' : ''} {passwordStrength.hasSufficientLength ? 'text-green-400' : 'text-red-400'}">
-              {passwordStrength.hasSufficientLength ? '✓' : '✗'} At least 10 characters
-            </li>
-            <li class="password-criteria {showUppercase ? 'visible' : ''} {passwordStrength.hasUppercase ? 'text-green-400' : 'text-red-400'}">
-              {passwordStrength.hasUppercase ? '✓' : '✗'} At least one uppercase letter
-            </li>
-            <li class="password-criteria {showNumber ? 'visible' : ''} {passwordStrength.hasNumber ? 'text-green-400' : 'text-red-400'}">
-              {passwordStrength.hasNumber ? '✓' : '✗'} At least one number
-            </li>
-            <li class="password-criteria {showSpecialChar ? 'visible' : ''} {passwordStrength.hasSpecialChar ? 'text-green-400' : 'text-red-400'}">
-              {passwordStrength.hasSpecialChar ? '✓' : '✗'} At least one special character
-            </li>
-          </ul>
+        <div class="flex items-center space-x-2">
+          <div
+            class="w-1/4 h-2 rounded-full {passwordStrength.score >= 1
+              ? 'bg-green-500'
+              : 'bg-gray-600'}"
+          ></div>
+          <div
+            class="w-1/4 h-2 rounded-full {passwordStrength.score >= 2
+              ? 'bg-green-500'
+              : 'bg-gray-600'}"
+          ></div>
+          <div
+            class="w-1/4 h-2 rounded-full {passwordStrength.score >= 3
+              ? 'bg-green-500'
+              : 'bg-gray-600'}"
+          ></div>
+          <div
+            class="w-1/4 h-2 rounded-full {passwordStrength.score >= 4
+              ? 'bg-green-500'
+              : 'bg-gray-600'}"
+          ></div>
         </div>
+        <ul class="text-xs text-gray-300 space-y-1">
+          <li
+            class="password-criteria {showLength
+              ? 'visible'
+              : ''} {passwordStrength.hasSufficientLength
+              ? 'text-green-400'
+              : 'text-red-400'}"
+          >
+            {passwordStrength.hasSufficientLength ? "✓" : "✗"} At least 10 characters
+          </li>
+          <li
+            class="password-criteria {showUppercase
+              ? 'visible'
+              : ''} {passwordStrength.hasUppercase
+              ? 'text-green-400'
+              : 'text-red-400'}"
+          >
+            {passwordStrength.hasUppercase ? "✓" : "✗"} At least one uppercase letter
+          </li>
+          <li
+            class="password-criteria {showNumber
+              ? 'visible'
+              : ''} {passwordStrength.hasNumber
+              ? 'text-green-400'
+              : 'text-red-400'}"
+          >
+            {passwordStrength.hasNumber ? "✓" : "✗"} At least one number
+          </li>
+          <li
+            class="password-criteria {showSpecialChar
+              ? 'visible'
+              : ''} {passwordStrength.hasSpecialChar
+              ? 'text-green-400'
+              : 'text-red-400'}"
+          >
+            {passwordStrength.hasSpecialChar ? "✓" : "✗"} At least one special character
+          </li>
+        </ul>
+      </div>
       <div>
         <label
           for="confirm-password"
@@ -169,7 +225,9 @@
   .password-criteria {
     opacity: 0;
     transform: translateY(10px);
-    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+    transition:
+      opacity 0.3s ease-out,
+      transform 0.3s ease-out;
   }
 
   .password-criteria.visible {
@@ -190,4 +248,3 @@
     transition-delay: 0.8s;
   }
 </style>
-
