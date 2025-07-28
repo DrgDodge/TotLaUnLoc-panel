@@ -3,8 +3,8 @@ services:
     container_name: totlaunloc-backend
     build: https://github.com/DrgDodge/TotLaUnLoc-panel.git#main:backend
     environment:
-      - SUPERUSER_EMAIL=
-      - SUPERUSER_PASS=
+      - SUPERUSER_EMAIL= #add superuser email set, after changing it in the pocketbase db
+      - SUPERUSER_PASS=  #do the same for the password
       - ALLOWED_ORIGINS=https://totlaunloc.top,http://localhost:5573
     networks:
       - proxy
@@ -15,8 +15,8 @@ services:
     build: 
       context: https://github.com/DrgDodge/TotLaUnLoc-panel.git#main:database
       args:
-        - SUPERUSER_EMAIL=mimiionescu07@gmail.com
-        - SUPERUSER_PASS=12345678
+        - SUPERUSER_EMAIL=api@api.com
+        - SUPERUSER_PASS=changeme
     volumes:
       - /srv/totlaunloc/db:/pb/pb_data
     networks:
