@@ -49,26 +49,26 @@
     <div
       class="border border-neutral-700 rounded-lg p-6 bg-neutral-900 min-h-[200px]"
     >
-      <!-- {#if connectedSockets.length > 0} -->
+      {#if connectedSockets.length > 0}
       <ul>
-        <!-- {#each connectedSockets as s} -->
+        {#each connectedSockets as s}
         <li
           class="flex justify-between items-center p-2 rounded-lg hover:bg-neutral-800"
         >
-          <!-- <span class="font-mono text-sm text-neutral-300"
+          <span class="font-mono text-sm text-neutral-300"
                   >{s.socketId}</span
-                > -->
+                >
           <div class="flex gap-2">
-            <!-- <span class="text-2xl">{s.status === "ok" ? "✔" : "❌"}</span> -->
+            <span class="text-2xl">{s.status === "ok" ? "✔" : "❌"}</span>
           </div>
         </li>
-        <!-- {/each} -->
+        {/each}
       </ul>
-      <!-- {:else} -->
+      {:else}
       <p class="text-neutral-400 text-lg text-center pt-8">
         No clients connected.
       </p>
-      <!-- {/if} -->
+      {/if}
     </div>
   </div>
 </div>
