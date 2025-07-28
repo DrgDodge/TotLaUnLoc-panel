@@ -14,23 +14,6 @@
       licenses = pb.authStore.record!.licenses;
   });
 
-  let machines = $state([
-    {
-      id: "machine-001",
-      apiKey: "a1b2c3d4-e5f6-7890-1234-567890abcdef",
-      name: "Web Server 1",
-    },
-    {
-      id: "machine-002",
-      apiKey: "a1b2c3d4-e5f6-7890-1234-567890abcdef",
-      name: "Database Server",
-    },
-    {
-      id: "machine-003",
-      apiKey: "f0e9d8c7-b6a5-4321-fedc-ba9876543210",
-      name: "Test Machine A",
-    },
-  ]);
 
   let newApiKey = $state("");
   let newApiKeyNickname = $state("");
@@ -89,24 +72,6 @@
     alert("Checking for new machines...");
   };
 
-  // To be linked to real backend
-  const addTestMachine = () => {
-    if (selectedApiKey) {
-      const newMachine = {
-        id: `machine-${Math.random().toString(36).substring(2, 7)}`,
-        apiKey: selectedApiKey,
-        name: `Test Machine ${Math.floor(Math.random() * 100)}`,
-      };
-      machines.push(newMachine);
-    } else {
-      alert("Please select an API key first.");
-    }
-  };
-
-  const filteredMachines = $derived(
-    licenses.filter((x) => x == 1),
-    // machines.filter((m) => m.apiKey === selectedApiKey),
-  );
 </script>
 
 <div class="max-w-7xl mx-auto p-4 md:p-8">
@@ -305,12 +270,6 @@
           class="w-full flex items-center justify-center gap-2 bg-transparent hover:bg-neutral-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 border border-green-600 hover:border-green-500"
         >
           Check for New Machines
-        </button>
-        <button
-          onclick={addTestMachine}
-          class="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200"
-        >
-          Add Test Machine
         </button>
       </div>
     </div>
