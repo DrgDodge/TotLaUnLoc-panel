@@ -60,9 +60,11 @@
 
     const mappedLicenses = data.licenses.filter((x: any) => x.apiKey != key);
 
+    data.licenses = mappedLicenses;
+
     console.log(data);
-    console.log(key);
-    console.log(mappedLicenses);
+    // console.log(key);
+    // console.log(mappedLicenses);
     await pb.collection("users").update(pb.authStore.record!.id, data);
   };
 
