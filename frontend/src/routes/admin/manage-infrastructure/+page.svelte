@@ -62,9 +62,8 @@
 
     data.licenses = mappedLicenses;
 
-    console.log(data);
-    // console.log(key);
-    // console.log(mappedLicenses);
+    licenses = mappedLicenses;
+
     await pb.collection("users").update(pb.authStore.record!.id, data);
   };
 
