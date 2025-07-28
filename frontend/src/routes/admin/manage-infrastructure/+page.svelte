@@ -2,7 +2,7 @@
   import { fly } from "svelte/transition";
   import { io } from "socket.io-client";
   import { pb } from "$lib/utils";
-    import { onMount } from "svelte";
+  import { onMount } from "svelte";
 
   const apiUrl = "https://api.totlaunloc.top";
   console.log(`SvelteKit backend connecting to API at: ${apiUrl}`);
@@ -44,8 +44,9 @@
   let licenses: Array<any> = $state([]);
 
   onMount(() => {
-    licenses = pb.authStore.record!.licenses
-  })
+    if (pb.authStore.record!.licenses != null)
+      licenses = pb.authStore.record!.licenses;
+  });
 
   let machines = $state([
     {
@@ -90,31 +91,22 @@
     const data = await pb.collection("users").getOne(pb.authStore.record!.id);
 
     if (data.licenses == null) {
-      licenses = [apiObject]
+      licenses = [apiObject];
     } else {
-      licenses.push(apiObject)
+      licenses.push(apiObject);
     }
 
     data.licenses = $state.snapshot(licenses);
 
-    const record = await pb.collection("users").update(pb.authStore.record!.id, data);
+    const record = await pb
+      .collection("users")
+      .update(pb.authStore.record!.id, data);
   };
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text).then(() => {
       alert("API Key copied to clipboard!");
     });
-  };
-
-
-    const deleteKey = async (licenseName: string) => {
-      alert("API Key deleted!");
-      const data = await pb.collection("users").getOne(pb.authStore.record!.id);
-      
-      data.licenses.map((x: any) => x.apiKeyName == licenseName)
-      
-      console.log(data);
-
   };
 
   const showApiKeyModal = (key: string) => {
@@ -142,7 +134,8 @@
   };
 
   const filteredMachines = $derived(
-    machines.filter((m) => m.apiKey === selectedApiKey),
+    licenses.filter((x) => x == 1),
+    // machines.filter((m) => m.apiKey === selectedApiKey),
   );
 </script>
 
@@ -169,7 +162,7 @@
           Generate New API Key
         </h4>
         {#if newApiKey}
-          <div class="flex flex-col sm:flex-row gap-3">
+          <div class="flex flex-col sm:flex-row gap-4">
             <input
               type="text"
               readonly
@@ -182,16 +175,13 @@
               bind:value={newApiKeyNickname}
               class="bg-neutral-900 border border-neutral-600 rounded-lg px-4 py-2 text-neutral-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
-          </div>
-          <div>
-
             <button
-            onclick={addApiKey}
-            class="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 mt-4 px-4 w-full rounded-lg transition-colors duration-200"
+              onclick={addApiKey}
+              class="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200"
             >
-            Add Key
-          </button>
-        </div>
+              Add Key
+            </button>
+          </div>
         {:else if licenses.length < apiKeyLimit}
           <button
             onclick={generateApiKey}
@@ -223,21 +213,6 @@
                 >
                 <div class="flex gap-2">
                   <button
-                    onclick={() => deleteKey(license.apiKeyName)}
-                    aria-label="Copy API Key"
-                    class="text-neutral-400 hover:text-white transition-colors"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="h-5 w-5"
-                      viewBox="0 0 25 25"
-                      fill="currentColor"
-                      ><path
-                        d="M 10 2 L 9 3 L 5 3 C 4.4 3 4 3.4 4 4 C 4 4.6 4.4 5 5 5 L 7 5 L 17 5 L 19 5 C 19.6 5 20 4.6 20 4 C 20 3.4 19.6 3 19 3 L 15 3 L 14 2 L 10 2 z M 5 7 L 5 20 C 5 21.1 5.9 22 7 22 L 17 22 C 18.1 22 19 21.1 19 20 L 19 7 L 5 7 z M 9 9 C 9.6 9 10 9.4 10 10 L 10 19 C 10 19.6 9.6 20 9 20 C 8.4 20 8 19.6 8 19 L 8 10 C 8 9.4 8.4 9 9 9 z M 15 9 C 15.6 9 16 9.4 16 10 L 16 19 C 16 19.6 15.6 20 15 20 C 14.4 20 14 19.6 14 19 L 14 10 C 14 9.4 14.4 9 15 9 z"
-                      /></svg
-                    >
-                  </button>
-                  <button
                     onclick={() => copyToClipboard(license.apiKey)}
                     aria-label="Copy API Key"
                     class="text-neutral-400 hover:text-white transition-colors"
@@ -266,8 +241,8 @@
                         fill-rule="evenodd"
                         d="M10 18a8 8 0 100-16 8 8 0 000 16zM9 11a1 1 0 112 0v4a1 1 0 11-2 0v-4zm2-5a1 1 0 10-2 0v.01a1 1 0 102 0V6z"
                         clip-rule="evenodd"
-                      />
-                      </svg>
+                      /></svg
+                    >
                   </button>
                 </div>
               </li>
@@ -297,7 +272,7 @@
                 class="flex justify-between items-center p-2 rounded-lg hover:bg-neutral-800"
               >
                 <span class="font-mono text-sm text-neutral-300"
-                  >{s}</span
+                  >{s.socketId}</span
                 >
                 <div class="flex gap-2">
                   <span class="text-2xl">{s.status === "ok" ? "✔" : "❌"}</span
@@ -344,11 +319,13 @@
       <div
         class="border border-neutral-700 rounded-lg p-6 bg-neutral-900 min-h-[200px]"
       >
-        {#if filteredMachines.length > 0}
+        {filteredMachines}
+        {#if filteredMachines}
+          <!-- {licenses} -->
           <ul>
-            {#each filteredMachines as machine}
+            {#each licenses as license}
               <li class="p-2 rounded-lg hover:bg-neutral-800 text-neutral-300">
-                {machine.name}
+                <!-- {license} -->
               </li>
             {/each}
           </ul>
