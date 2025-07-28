@@ -53,9 +53,13 @@ io.on("connection", (socket) => {
       })
       record.forEach(async user => {
         const test = user.licenses.find((license: any) => license.apiKey == data.savedLicenseKey)
-        console.log("test", test);
+        // console.log("test", test);
         if (test) {
           const index = user.licenses.indexOf(test)
+
+          const findMachine = user.licenses[index].machines.find((machine: any) => machine.id == data.machineId)
+          if (findMachine) return;
+
           user.licenses[index].machines.push({ name: `Machine-${data.machineId}`, id: data.machineId })
 
           await pb.collection("users").update(user.id, user)
