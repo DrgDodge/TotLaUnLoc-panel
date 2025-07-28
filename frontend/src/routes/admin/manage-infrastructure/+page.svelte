@@ -323,7 +323,7 @@
           <ul>
             {#each licenses as license}
             <!-- {JSON.stringify(license.machines)} -->
-            <li>{license}</li>
+            <li>{license.apiKeyName}</li>
             <li>{selectedApiKey}</li>
             {#if license.apiKeyName == selectedApiKey}
 
