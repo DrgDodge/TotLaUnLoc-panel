@@ -327,7 +327,7 @@
                   <li
                     class="p-2 rounded-lg hover:bg-neutral-800 text-neutral-300"
                   >
-                    {machine}
+                    {JSON.stringify(machine)}
                   </li>
                 {/each}
               {/if}
