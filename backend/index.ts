@@ -45,7 +45,8 @@ io.on("connection", (socket) => {
               const index = user.licenses.indexOf(test)
               user.licenses[index].machines.push({name: `Machine-${data.machineId}`, id: data.machineId})
               
-              await pb.collection("users").update(user.id, user)
+              const newData = await pb.collection("users").update(user.id, user)
+              console.log(newData)
             }
           })
         }
@@ -56,20 +57,5 @@ io.on("connection", (socket) => {
         connectedClients.delete(socket.id);
         adminNamespace.emit("disconnect_signal", { socketId: socket.id });
     });
-
-  socket.on("register", async (data, callback) => {
-    try {
-      const newUser = {
-        "email": data.username,
-        "password": data.password,
-        "passwordConfirm": data.password,
-        "emailVisibility": true,
-      };
-      await pb.collection('users').create(newUser);
-      callback({ success: true });
-    } catch (e: any) {
-      callback({ success: false, message: e.message });
-    }
-  });
 
 });
