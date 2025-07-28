@@ -60,7 +60,8 @@
 
     data.licenses.map((x: any) => x.apiKey != key);
 
-    console.log(data, key);
+    console.log(data);
+    console.log(key);
     await pb.collection("users").update(pb.authStore.record!.id, data);
   };
 
