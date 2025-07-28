@@ -3,18 +3,6 @@ import PocketBase from 'pocketbase';
 
 const pb = new PocketBase("https://db.totlaunloc.top");
 
-const superuser_email = process.env.SUPERUSER_EMAIL
-const superuser_pass = process.env.SUPERUSER_PASS
-
-if (!superuser_email || !superuser_pass)
-  throw new Error("SUPERUSER_EMAIL or SUPERUSER_PASS environment variables do not exist!");
-
-await pb.collection("_superusers").authWithPassword("api@api.com", "QcLs9Kd9wnApRKW");
-
-let superusers = await pb.collection("_superusers").getList().then(x => {
-  return x.items.map(y => y = y.email);
-})
-
 const machineCache = new Map();
 
 

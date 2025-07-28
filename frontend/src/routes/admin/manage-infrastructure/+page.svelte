@@ -106,6 +106,11 @@
     });
   };
 
+
+    const deleteKey = () => {
+      alert("API Key deleted!");
+  };
+
   const showApiKeyModal = (key: string) => {
     modalApiKey = key;
     showModal = true;
@@ -158,7 +163,7 @@
           Generate New API Key
         </h4>
         {#if newApiKey}
-          <div class="flex flex-col sm:flex-row gap-4">
+          <div class="flex flex-col sm:flex-row gap-3">
             <input
               type="text"
               readonly
@@ -171,13 +176,16 @@
               bind:value={newApiKeyNickname}
               class="bg-neutral-900 border border-neutral-600 rounded-lg px-4 py-2 text-neutral-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
-            <button
-              onclick={addApiKey}
-              class="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200"
-            >
-              Add Key
-            </button>
           </div>
+          <div>
+
+            <button
+            onclick={addApiKey}
+            class="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 mt-4 px-4 w-full rounded-lg transition-colors duration-200"
+            >
+            Add Key
+          </button>
+        </div>
         {:else if licenses.length < apiKeyLimit}
           <button
             onclick={generateApiKey}
@@ -209,6 +217,21 @@
                 >
                 <div class="flex gap-2">
                   <button
+                    onclick={() => deleteKey()}
+                    aria-label="Copy API Key"
+                    class="text-neutral-400 hover:text-white transition-colors"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-5 w-5"
+                      viewBox="0 0 25 25"
+                      fill="currentColor"
+                      ><path
+                        d="M 10 2 L 9 3 L 5 3 C 4.4 3 4 3.4 4 4 C 4 4.6 4.4 5 5 5 L 7 5 L 17 5 L 19 5 C 19.6 5 20 4.6 20 4 C 20 3.4 19.6 3 19 3 L 15 3 L 14 2 L 10 2 z M 5 7 L 5 20 C 5 21.1 5.9 22 7 22 L 17 22 C 18.1 22 19 21.1 19 20 L 19 7 L 5 7 z M 9 9 C 9.6 9 10 9.4 10 10 L 10 19 C 10 19.6 9.6 20 9 20 C 8.4 20 8 19.6 8 19 L 8 10 C 8 9.4 8.4 9 9 9 z M 15 9 C 15.6 9 16 9.4 16 10 L 16 19 C 16 19.6 15.6 20 15 20 C 14.4 20 14 19.6 14 19 L 14 10 C 14 9.4 14.4 9 15 9 z"
+                      /></svg
+                    >
+                  </button>
+                  <button
                     onclick={() => copyToClipboard(license.apiKey)}
                     aria-label="Copy API Key"
                     class="text-neutral-400 hover:text-white transition-colors"
@@ -237,8 +260,8 @@
                         fill-rule="evenodd"
                         d="M10 18a8 8 0 100-16 8 8 0 000 16zM9 11a1 1 0 112 0v4a1 1 0 11-2 0v-4zm2-5a1 1 0 10-2 0v.01a1 1 0 102 0V6z"
                         clip-rule="evenodd"
-                      /></svg
-                    >
+                      />
+                      </svg>
                   </button>
                 </div>
               </li>
