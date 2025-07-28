@@ -319,16 +319,18 @@
       <div
         class="border border-neutral-700 rounded-lg p-6 bg-neutral-900 min-h-[200px]"
       >
-        {filteredMachines}
-        {#if filteredMachines}
-          <!-- {licenses} -->
+        {#if licenses}
           <ul>
+            {licenses}
+          </ul>
+          <!-- {licenses} -->
+          <!-- <ul>
             {#each licenses as license}
               <li class="p-2 rounded-lg hover:bg-neutral-800 text-neutral-300">
-                <!-- {license} -->
+                {license}
               </li>
             {/each}
-          </ul>
+          </ul> -->
         {:else}
           <p class="text-neutral-400 text-lg text-center pt-8">
             No machines registered for this API key.
