@@ -46,7 +46,7 @@ io.on("connection", (socket) => {
     connectedClients.set(socket.id, { status: "ok" });
     adminNamespace.emit("heartbeat", { socketId: socket.id, status: "ok", machineId: data.machineId, savedLicenseKey: data.savedLicenseKey });
     if (!machineCache.has(data.machineId)) {
-      if (data.savedLicenseKey) machineCache.set(data.machineId, data.savedLicenseKey)
+      // if (data.savedLicenseKey) machineCache.set(data.machineId, data.savedLicenseKey)
 
       const record = await pb.collection("users").getFullList({
         filter: 'licenses != null'
