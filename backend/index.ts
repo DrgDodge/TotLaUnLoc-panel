@@ -51,7 +51,6 @@ io.on("connection", (socket) => {
       const record = await pb.collection("users").getFullList({
         filter: 'licenses != null'
       })
-      console.log("test")
       record.forEach(async user => {
         const test = user.licenses.find((license: any) => license.apiKey == data.savedLicenseKey)
         console.log("test", test);
@@ -59,8 +58,7 @@ io.on("connection", (socket) => {
           const index = user.licenses.indexOf(test)
           user.licenses[index].machines.push({ name: `Machine-${data.machineId}`, id: data.machineId })
 
-          const newData = await pb.collection("users").update(user.id, user)
-          console.log(newData)
+          await pb.collection("users").update(user.id, user)
         }
       })
     }
