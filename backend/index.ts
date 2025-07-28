@@ -39,12 +39,13 @@ io.on("connection", (socket) => {
           const record = await pb.collection("users").getFullList({
             filter: 'licenses != null'
           })
-          record.forEach(user => {
+          record.forEach(async user => {
             const test = user.licenses.find((license: any) => license.apiKey == data.savedLicenseKey)
             if (test) {
               const index = user.licenses.indexOf(test)
               user.licenses[index].machines.push({name: `Machine-${data.machineId}`, id: data.machineId})
-              console.log(user);
+              
+              await pb.collection("users").update(user.id, user)
             }
           })
         }
