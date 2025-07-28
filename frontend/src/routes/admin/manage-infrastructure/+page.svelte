@@ -297,7 +297,7 @@
                 class="flex justify-between items-center p-2 rounded-lg hover:bg-neutral-800"
               >
                 <span class="font-mono text-sm text-neutral-300"
-                  >{s.socketId}</span
+                  >{s}</span
                 >
                 <div class="flex gap-2">
                   <span class="text-2xl">{s.status === "ok" ? "✔" : "❌"}</span
