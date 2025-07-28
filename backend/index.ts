@@ -58,6 +58,8 @@ io.on("connection", (socket) => {
           const index = user.licenses.indexOf(test)
 
           const findMachine = user.licenses[index].machines.find((machine: any) => machine.id == data.machineId)
+          console.log(findMachine);
+          
           if (findMachine) return;
 
           user.licenses[index].machines.push({ name: `Machine-${data.machineId}`, id: data.machineId })
