@@ -21,7 +21,7 @@
 
   socket.on("heartbeat", (data) => {
     console.log(data);
-    connectedSockets = connectedSockets.map((s) =>
+    connectedSockets.map((s) =>
       s.socketId === data.socketId ? { ...s, status: data.status } : s,
     );
   });
@@ -32,7 +32,7 @@
     );
   });
 
-  let connectedSockets = $state<{ socketId: string; status: string }[]>([]);
+  let connectedSockets = $state<{ socketId: string; status: string, machineId: string, savedLicenseKey: string }[]>([]);
 </script>
 
 <div>
@@ -57,7 +57,7 @@
               class="flex justify-between items-center p-2 rounded-lg hover:bg-neutral-800"
             >
               <span class="font-mono text-sm text-neutral-300"
-                >{s.socketId}</span
+                >{s.machineId}</span
               >
               <div class="flex gap-2">
                 <span class="text-2xl">{s.status === "ok" ? "✔" : "❌"}</span>

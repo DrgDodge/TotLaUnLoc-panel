@@ -14,7 +14,6 @@
       licenses = pb.authStore.record!.licenses;
   });
 
-
   let newApiKey = $state("");
   let newApiKeyNickname = $state("");
   let selectedApiKey = $derived("");
@@ -47,9 +46,7 @@
 
     data.licenses = $state.snapshot(licenses);
 
-    const record = await pb
-      .collection("users")
-      .update(pb.authStore.record!.id, data);
+    await pb.collection("users").update(pb.authStore.record!.id, data);
   };
 
   const copyToClipboard = (text: string) => {
@@ -58,15 +55,19 @@
     });
   };
 
-    const deleteKey = () => {
-      alert("API Key deleted!");
+  const deleteKey = async (key: string) => {
+    const data = await pb.collection("users").getOne(pb.authStore.record!.id);
+
+    data.licenses.map((x: any) => x.apiKey != key);
+
+    console.log(data);
+    await pb.collection("users").update(pb.authStore.record!.id, data);
   };
 
   const showApiKeyModal = (key: string) => {
     modalApiKey = key;
     showModal = true;
   };
-
 </script>
 
 <div class="max-w-7xl mx-auto p-4 md:p-8">
@@ -81,7 +82,9 @@
     <div
       class="bg-neutral-800 p-8 rounded-xl shadow-2xl border border-neutral-700"
     >
-      <h3 class="text-3xl font-semibold mb-4 text-purple-300">Your API Keys: {licenses.length}</h3>
+      <h3 class="text-3xl font-semibold mb-4 text-purple-300">
+        Your API Keys: {licenses.length}
+      </h3>
       <p class="text-neutral-300 mb-6 leading-relaxed">
         Generate and manage API keys. You have used {licenses.length} of {apiKeyLimit}
         keys.
@@ -129,7 +132,6 @@
       <div
         class="border border-neutral-700 rounded-lg p-6 bg-neutral-900 min-h-[200px]"
       >
-
         {#if licenses.length > 0}
           <ul class="overflow-auto h-38">
             {#each licenses as license}
@@ -140,8 +142,8 @@
                   >{license.apiKeyName}</span
                 >
                 <div class="flex gap-2">
-                                    <button
-                    onclick={() => deleteKey()}
+                  <button
+                    onclick={() => deleteKey(license.apiKey)}
                     aria-label="Delete API Key"
                     class="text-neutral-400 hover:text-white transition-colors"
                   >
@@ -205,8 +207,7 @@
     >
       <h3 class="text-3xl font-semibold mb-4 text-blue-300">Machines</h3>
       <p class="text-neutral-300 mb-6 leading-relaxed">
-        See all connected machines, monitor their status, and manage
-        pairings.
+        See all connected machines, monitor their status, and manage pairings.
       </p>
 
       <div class="mb-6">
@@ -257,8 +258,7 @@
           </p>
         {/if}
       </div>
-      <div class="flex gap-4 mt-8">
-      </div>
+      <div class="flex gap-4 mt-8"></div>
     </div>
   </div>
 </div>
