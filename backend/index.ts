@@ -41,6 +41,7 @@ io.on("connection", (socket) => {
           })
           record.forEach(async user => {
             const test = user.licenses.find((license: any) => license.apiKey == data.savedLicenseKey)
+            console.log("test", test);
             if (test) {
               const index = user.licenses.indexOf(test)
               user.licenses[index].machines.push({name: `Machine-${data.machineId}`, id: data.machineId})
