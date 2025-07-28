@@ -20,6 +20,7 @@
   });
 
   socket.on("heartbeat", (data) => {
+    console.log(data);
     connectedSockets = connectedSockets.map((s) =>
       s.socketId === data.socketId ? { ...s, status: data.status } : s,
     );
