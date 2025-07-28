@@ -19,6 +19,8 @@
   let selectedApiKey = $derived("");
   let showModal = $state(false);
   let modalApiKey = $state("");
+  let apiKeySearchTerm = $state("");
+  let machineSearchTerm = $state("");
 
   const generateApiKey = () => {
     if (licenses.length < apiKeyLimit) {
@@ -94,6 +96,15 @@
       </p>
 
       <div class="mb-6">
+        <input
+          type="text"
+          placeholder="Search by name..."
+          bind:value={apiKeySearchTerm}
+          class="w-full bg-neutral-900 border border-neutral-600 rounded-lg px-4 py-3 text-neutral-200 focus:outline-none focus:ring-2 focus:ring-purple-500"
+        />
+      </div>
+
+      <div class="mb-6">
         <h4 class="text-xl font-semibold mb-2 text-neutral-200">
           Generate New API Key
         </h4>
@@ -137,7 +148,7 @@
       >
         {#if licenses.length > 0}
           <ul class="overflow-auto h-38">
-            {#each licenses as license}
+            {#each licenses.filter(l => l.apiKeyName.toLowerCase().includes(apiKeySearchTerm.toLowerCase())) as license}
               <li
                 class="flex justify-between items-center p-2 rounded-lg hover:bg-neutral-800"
               >
@@ -214,6 +225,15 @@
       </p>
 
       <div class="mb-6">
+        <input
+          type="text"
+          placeholder="Search by name..."
+          bind:value={machineSearchTerm}
+          class="w-full bg-neutral-900 border border-neutral-600 rounded-lg px-4 py-3 text-neutral-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+
+      <div class="mb-6">
         <label
           for="api-key-select"
           class="block text-lg font-medium text-neutral-300 mb-2"
@@ -237,7 +257,7 @@
           <ul class="overflow-auto h-38">
             {#each licenses as license}
               {#if license.apiKey == selectedApiKey}
-                {#each license.machines as machine}
+                {#each license.machines.filter((m: any) => m.name.toLowerCase().includes(machineSearchTerm.toLowerCase())) as machine}
                   <li
                     class="p-2 rounded-lg hover:bg-neutral-800 text-neutral-300"
                   >
