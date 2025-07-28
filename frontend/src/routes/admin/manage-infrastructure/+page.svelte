@@ -321,7 +321,17 @@
       >
         {#if licenses}
           <ul>
-            {JSON.stringify(licenses)}
+            {#each licenses as license}
+              {#if license.apiKeyName == selectedApiKey}
+                {#each license.machines as machine}
+                  <li
+                    class="p-2 rounded-lg hover:bg-neutral-800 text-neutral-300"
+                  >
+                    {machine}
+                  </li>
+                {/each}
+              {/if}
+            {/each}
           </ul>
           <!-- {licenses} -->
           <!-- <ul>
