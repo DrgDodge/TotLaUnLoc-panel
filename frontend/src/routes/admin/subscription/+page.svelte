@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { pb } from "$lib/utils";
+
   let customPackage = $state(false);
   let devices = $state(0);
   let keys = $state(0);
@@ -13,6 +15,24 @@
     customPackage = true;
     devices = 0;
     keys = 0;
+  }
+
+  async function placeOrder() {
+
+    if (devices == 0 || keys == 0) return alert("Could not process empty order!");
+
+    const data = {
+      userId: pb.authStore.record?.id,
+      licensetype: "",
+      machineLimit: devices,
+      apiLimit: keys,
+      status: "created"
+    }
+
+    if (customPackage) data.licensetype = "pro"
+    else data.licensetype = "standard";
+
+    await pb.collection("orders").create(data).then(() => alert("Order placed!")).catch(() => alert("Error! Could not place error!"));
   }
 </script>
 
@@ -54,6 +74,7 @@
       </div>
       <div class="pt-10">
         <button
+          onclick={placeOrder}
           class="w-full bg-transparent hover:bg-neutral-700 text-white font-semibold py-6 px-6 rounded-lg transition-colors duration-200 border border-purple-600 hover:border-purple-500"
         >
           Place order
