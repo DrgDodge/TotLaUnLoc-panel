@@ -50,6 +50,10 @@
 				activeLinkElement = homeLink;
 			} else if ($page.url.pathname === "/about") {
 				activeLinkElement = aboutLink;
+			} else if ($page.url.pathname === "/legal/terms-of-service") {
+				activeLinkElement = aboutLink;
+			} else if ($page.url.pathname === "/legal/privacy-policy") {
+				activeLinkElement = aboutLink;
 			} else if ($page.url.pathname === "/download") {
 				activeLinkElement = downloadLink;
 			} else if ($page.url.pathname === "/download/linux") {
