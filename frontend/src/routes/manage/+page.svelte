@@ -14,9 +14,26 @@
 
     if (recordLicenses) licenseOrders = recordLicenses;
 
+    // licenseOrders.forEach(async (order: any, index: number) => {
+    //   const user = await pb.collection("users").getOne(order.userId)
+    //   console.log(user)
+    //   // licenseOrders[index].email = user.email;
+    // })
+
+    // console.log(licenseOrders)
+
     const recordUsers = await pb.collection("users").getFullList();
 
     users = recordUsers;
+
+    licenseOrders.forEach((order: any, index: number) => {
+      // console.log(orde
+      const user = users.find((x: any) => x.id == order.userId);
+      licenseOrders[index].email = user.email;
+    })
+
+    // console.log(users);
+    console.log(licenseOrders);
   });
 
   // Need Backend
@@ -205,10 +222,16 @@
                     >Order #{order.id}</span
                   >
                   <p class="text-sm text-neutral-400">
-                    User: {order}
+                    User: {order.email}
                   </p>
                   <p class="text-sm text-neutral-400">
                     License Type: {order.licenseType}
+                  </p>
+                  <p class="text-sm text-neutral-400">
+                    API Limit: {order.apiLimit}
+                  </p>
+                  <p class="text-sm text-neutral-400">
+                    Machine Limit: {order.machineLimit}
                   </p>
                 </div>
                 <div class="relative inline-block text-neutral-200">

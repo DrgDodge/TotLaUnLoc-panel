@@ -23,14 +23,14 @@
 
     const data = {
       userId: pb.authStore.record?.id,
-      licensetype: "",
+      licenseType: "",
       machineLimit: devices,
       apiLimit: keys,
       status: "created"
     }
 
-    if (customPackage) data.licensetype = "pro"
-    else data.licensetype = "standard";
+    if (customPackage) data.licenseType = "pro"
+    else data.licenseType = "standard";
 
     await pb.collection("orders").create(data).then(() => alert("Order placed!")).catch(() => alert("Error! Could not place error!"));
   }
