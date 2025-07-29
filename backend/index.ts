@@ -95,7 +95,7 @@ io.on("connection", (socket) => {
   socket.on("deletesocket", (data, callback) => {
     console.log("machine", data)
     // socket.emit("delete")
-    callback("i received")
+    if (callback) callback("i received")
   })
 
 });

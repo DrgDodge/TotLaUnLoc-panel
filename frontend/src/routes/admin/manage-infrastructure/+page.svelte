@@ -72,14 +72,7 @@
     await pb.collection("users").update(pb.authStore.record!.id, data);
   };
 
-  const socket = io("https://api.totlaunloc.top", {
-    transports: ["websockets"],
-    withCredentials: true
-  })
-
-  socket.on("deletesocket", data => {
-
-  })
+  const socket = io("http://backend:7355");
 
   const confirmDelete = async () => {
 
