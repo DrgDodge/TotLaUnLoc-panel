@@ -97,7 +97,7 @@ io.on("connection", (socket) => {
     if (data.location == "user") set.add(data.machine)
 
     if (set.has(data.machineId)) socket.emit("delete");
-    callback("i received")
+    if (callback) callback("i received")
   })
 
 });
