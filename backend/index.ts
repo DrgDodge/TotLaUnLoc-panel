@@ -92,9 +92,9 @@ io.on("connection", (socket) => {
     adminNamespace.emit("disconnect_signal", { socketId: socket.id });
   });
 
-  socket.on("appDelete", machineToDelete => {
+  socket.on("deletesocket", machineToDelete => {
     console.log("machine", machineToDelete)
-    socket.emit("delete")
+    // socket.emit("delete")
   })
 
 });
