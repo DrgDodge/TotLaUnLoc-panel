@@ -1,5 +1,7 @@
 <script lang="ts">
+    import { pb } from "$lib/utils";
   import { io } from "socket.io-client";
+    import { onMount } from "svelte";
 
   const apiUrl = "https://api.totlaunloc.top";
   console.log(`SvelteKit backend connecting to API at: ${apiUrl}`);
@@ -40,6 +42,18 @@
     );
   });
 
+  let machines: Array<any> = $state([])
+
+  onMount(async () => {
+    const res = await pb.collection("users").getOne(pb.authStore.record!.id);
+
+    res.licenses.forEach((license: any) => {
+      machines.push(license.machines)
+      machines = machines.flat();
+    })
+
+  })
+
   let connectedSockets: Array<any> = $state([]);
 </script>
 
@@ -58,17 +72,17 @@
     <div
       class="border border-neutral-700 rounded-lg p-6 bg-neutral-900 min-h-[200px]"
     >
-      {#if connectedSockets.length > 0}
+      {#if machines.length > 0}
         <ul>
-          {#each connectedSockets as s}
+          {#each machines as machine}
             <li
               class="flex justify-between items-center p-2 rounded-lg hover:bg-neutral-800"
             >
               <span class="font-mono text-sm text-neutral-300"
-                >{JSON.stringify(s)}</span
+                >{machine.name}</span
               >
               <div class="flex gap-2">
-                <span class="text-2xl">{s.status === "ok" ? "✔" : "❌"}</span>
+                <!-- <span class="text-2xl">{s.status === "ok" ? "✔" : "❌"}</span> -->
               </div>
             </li>
           {/each}

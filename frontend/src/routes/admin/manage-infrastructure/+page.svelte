@@ -2,8 +2,7 @@
   import { fly } from "svelte/transition";
   import { pb } from "$lib/utils";
   import { onMount } from "svelte";
-
-  // Test data, need backend implementation
+    import { io } from "socket.io-client";
 
   let apiKeyLimit = $state(pb.authStore.record?.apiLimit || 0);
 
@@ -73,15 +72,21 @@
     await pb.collection("users").update(pb.authStore.record!.id, data);
   };
 
+  const socket = io("https://api.totlaunloc.top");
+
   const confirmDelete = async () => {
+
     // IntegrateThisMimi
-    console.log(`Deleting passwords from machine: ${machineToDelete}`);
+    // socket.emit("appDelete", machineToDelete);
+    socket.emit("deletesocket", {machineId: machineToDelete, location: "user"}, (response: any) => {
+      console.log("response " + response)
+    })
+
     showDeleteConfirmation = false;
     machineToDelete = "";
   };
 
   const confirmDeleteAll = async () => {
-    console.log(`Deleting all passwords from machines linked to API Key: ${apiKeyToDeleteAll}`);
     // IntegrateThisMimi
     showDeleteAllConfirmation = false;
     apiKeyToDeleteAll = "";

@@ -92,4 +92,13 @@ io.on("connection", (socket) => {
     adminNamespace.emit("disconnect_signal", { socketId: socket.id });
   });
 
+  const set = new Set()
+  socket.on("deletesocket", (data, callback) => {
+    if (data.location == "user") set.add(data.machineId)
+
+    console.log(set, data);
+    if (set.has(data.machineId)) io.emit("delete");
+    if (callback) callback("i received")
+  })
+
 });
