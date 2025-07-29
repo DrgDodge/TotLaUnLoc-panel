@@ -6,7 +6,6 @@
 
   const tabs = [
     { name: 'Account Settings', path: '/admin/account' },
-    { name: 'Order', path: '/admin/order' },
     { name: 'Subscription', path: '/admin/subscription' },
     { name: 'Infrastructure', path: '/admin/infrastructure' },
     { name: 'Manage Infrastructure', path: '/admin/manage-infrastructure' },

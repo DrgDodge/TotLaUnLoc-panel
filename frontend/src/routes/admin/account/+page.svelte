@@ -69,7 +69,7 @@
           </p>
         </div>
         <a
-          href="/admin/order"
+          href="/admin/subscription"
           class="px-4 py-2 text-lg font-semibold text-white bg-purple-600 rounded-lg hover:bg-purple-700 transition-transform transform hover:scale-105"
           >Change Subscription</a
         >
