@@ -25,5 +25,14 @@
       <li><strong class="text-purple-300">Data Breach Verification:</strong> It is important to note that the application does not access or decrypt passwords stored by browsers. The data breach verification functionality is performed by comparing the website name and account/username with a local database of known breaches, thus ensuring the confidentiality of your passwords. No passwords are sent to external servers during this process.</li>
       <li><strong class="text-purple-300">TOTP:</strong> Integration with the <code class="bg-neutral-700 px-1 rounded">totp-rs</code> library allows for the generation and management of time-based one-time authentication codes.</li>
     </ul>
+
+    <div class="flex justify-center space-x-4 mt-8">
+      <a href="/legal/privacy-policy" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 shadow-lg">
+        Privacy Policy
+      </a>
+      <a href="/legal/terms-of-service" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 shadow-lg">
+        Terms of Service
+      </a>
+    </div>
   </div>
 </div>

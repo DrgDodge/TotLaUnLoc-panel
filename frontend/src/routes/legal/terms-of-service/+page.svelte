@@ -51,7 +51,7 @@
 
     <h3 class="text-3xl font-semibold mb-4 text-blue-300">8. Changes to Terms</h3>
     <p class="text-lg mb-4 leading-relaxed">
-      We reserve the right, at our sole discretion, to modify or replace these Terms at any time. If a revision is material, we will provide at least 30 days' notice prior to any new terms taking effect. What constitutes a material change will be determined at our sole discretion.
+      We reserve the right, at our sole discretion, to modify or replace these Terms at any time. If a revision is material, we will provide at least 30 days notice prior to any new terms taking effect. What constitutes a material change will be determined at our sole discretion.
     </p>
 
     <h3 class="text-3xl font-semibold mb-4 text-blue-300">9. Contact Us</h3>
