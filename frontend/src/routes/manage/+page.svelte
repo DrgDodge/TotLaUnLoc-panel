@@ -30,6 +30,9 @@
   let grantMachineLimit = $state(0);
   let grantApiKeyLimit = $state(0);
   let userSearchQuery = $state("");
+  let selectedOrder = $state<any | null>(null);
+  let showOrderStatusModal = $state(false);
+  let selectedOrderStatus = $state("");
 
   const availableLicenses = ["standard", "pro"];
   const orderStatuses = ["pending", "completed", "cancelled"];
@@ -40,6 +43,12 @@
     grantMachineLimit = user.machineLimit || 0;
     grantApiKeyLimit = user.apiKeyLimit || 0;
     showGrantLicenseModal = true;
+  };
+
+  const openOrderStatusModal = (order: any) => {
+    selectedOrder = order;
+    selectedOrderStatus = order.status;
+    showOrderStatusModal = true;
   };
 
   const grantLicense = async () => {
@@ -88,13 +97,20 @@
     // }
   };
 
-  const updateOrderStatus = (orderId: string, newStatus: string) => {
-    // const orderIndex = licenseOrders.findIndex((order) => order.id === orderId);
-    // if (orderIndex !== -1) {
-    //   licenseOrders[orderIndex].status = newStatus;
-    //   // Need Backend
-    //   alert(`License order ${orderId} status updated to ${newStatus}.`);
-    // }
+  const confirmUpdateOrderStatus = async () => {
+    if (selectedOrder && selectedOrderStatus) {
+      selectedOrder.status = selectedOrderStatus;
+      await pb
+        .collection("orders")
+        .update($state.snapshot(selectedOrder.id), $state.snapshot(selectedOrder))
+        .then(() => {
+          alert(`License order ${selectedOrder.id} status updated to ${selectedOrderStatus}.`);
+          showOrderStatusModal = false;
+          selectedOrder = null;
+          selectedOrderStatus = "";
+        })
+        .catch(() => alert("Error! Could not update order status!"));
+    }
   };
 
   // const getUserName = (userId: string) => {
@@ -114,7 +130,7 @@
     <div
       class="bg-neutral-800 p-8 rounded-xl shadow-2xl border border-neutral-700"
     >
-      <h3 class="text-3xl font-semibold mb-4 text-green-300">Users</h3>
+      <h3 class="text-3xl font-semibold mb-4 text-purple-300">Users</h3>
       <p class="text-neutral-300 mb-6 leading-relaxed">
         View and manage user accounts and their assigned licenses.
       </p>
@@ -140,7 +156,7 @@
                 <li
                   class="flex justify-between items-center p-2 rounded-lg hover:bg-neutral-800"
                 >
-                  <div>
+                  <div class="pr-10">
                     <span class="font-medium text-neutral-200"
                       >{user.email}</span
                     >
@@ -150,8 +166,8 @@
                   </div>
                   <button
                     onclick={() => openGrantLicenseModal(user)}
-                    class="bg-green-600 hover:bg-green-700 text-white font-semibold py-1 px-3 rounded-lg transition-colors duration-200 text-sm"
-                  >
+                    class="w-50 bg-transparent hover:bg-neutral-700 text-white font-semibold py-3 px-3 rounded-lg transition-colors duration-200 border border-purple-600 hover:border-purple-500"
+                    >
                     Grant License
                   </button>
                 </li>
@@ -189,26 +205,19 @@
                     >Order #{order.id}</span
                   >
                   <p class="text-sm text-neutral-400">
-                    User: {order.contact.email}
+                    User: {order}
                   </p>
                   <p class="text-sm text-neutral-400">
                     License Type: {order.licenseType}
                   </p>
                 </div>
                 <div class="relative inline-block text-neutral-200">
-                  <select
-                    bind:value={order.status}
-                    onchange={(e) =>
-                      updateOrderStatus(
-                        order.id,
-                        (e.target as HTMLSelectElement).value,
-                      )}
-                    class="block appearance-none w-full bg-neutral-900 border border-neutral-600 hover:border-neutral-500 px-4 py-2 pr-8 rounded-lg shadow leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                  <button
+                    onclick={() => openOrderStatusModal(order)}
+                    class="w-50 bg-transparent hover:bg-neutral-700 text-white font-semibold py-3 px-3 rounded-lg transition-colors duration-200 border border-blue-600 hover:border-blue-500"
                   >
-                    {#each orderStatuses as statusOption}
-                      <option value={statusOption}>{statusOption}</option>
-                    {/each}
-                  </select>
+                    Change Status
+                  </button>
                 </div>
               </li>
             {/each}
@@ -285,6 +294,49 @@
           class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200"
         >
           Grant
+        </button>
+      </div>
+    </div>
+  </div>
+{/if}
+
+{#if showOrderStatusModal}
+  <div
+    transition:fly={{ y: -50, duration: 300 }}
+    class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"
+  >
+    <div
+      class="bg-neutral-800 rounded-xl shadow-2xl p-8 border border-neutral-600 max-w-md w-full text-center"
+    >
+      <h3 class="text-2xl font-bold mb-4 text-blue-300">
+        Change Order Status for #{selectedOrder?.id}
+      </h3>
+      <div class="mb-4 text-left">
+        <label for="order-status" class="block text-neutral-300 mb-2"
+          >Select New Status:</label
+        >
+        <select
+          id="order-status"
+          bind:value={selectedOrderStatus}
+          class="w-full bg-neutral-900 border border-neutral-600 rounded-lg px-4 py-2 text-neutral-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          {#each orderStatuses as statusOption}
+            <option value={statusOption}>{statusOption}</option>
+          {/each}
+        </select>
+      </div>
+      <div class="flex justify-end gap-4">
+        <button
+          onclick={() => (showOrderStatusModal = false)}
+          class="bg-neutral-600 hover:bg-neutral-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200"
+        >
+          Cancel
+        </button>
+        <button
+          onclick={confirmUpdateOrderStatus}
+          class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200"
+        >
+          Update Status
         </button>
       </div>
     </div>
