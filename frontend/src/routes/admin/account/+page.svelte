@@ -50,13 +50,13 @@
 </script>
 
 <div class="max-w-4xl mx-auto p-4 md:p-8 text-white">
-  <header class="mb-10 pl-23">
+  <header class="mb-10">
     <h1
-      class="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500"
+      class="flex justify-center text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500"
     >
       Your account
     </h1>
-    <p class="text-neutral-400 mt-2">Manage your account information.</p>
+    <p class="text-neutral-400 mt-2 flex justify-center">Manage your account information.</p>
   </header>
 
   <div class="bg-neutral-800 rounded-xl shadow-2xl border border-neutral-700">
