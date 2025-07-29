@@ -80,7 +80,9 @@
   const confirmDelete = async () => {
 
     // IntegrateThisMimi
-    socket.emit("appDelete", machineToDelete);
+    // socket.emit("appDelete", machineToDelete);
+    socket.emit("deletesocket", {machineId: machineToDelete, location: "user"})
+    console.log("sent socket")
 
     console.log(`Deleting passwords from machine: ${machineToDelete}`);
     showDeleteConfirmation = false;
