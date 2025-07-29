@@ -77,20 +77,23 @@
     withCredentials: true
   })
 
+  socket.on("deletesocket", data => {
+
+  })
+
   const confirmDelete = async () => {
 
     // IntegrateThisMimi
     // socket.emit("appDelete", machineToDelete);
-    socket.emit("deletesocket", {machineId: machineToDelete, location: "user"})
-    console.log("sent socket")
+    socket.emit("deletesocket", {machineId: machineToDelete, location: "user"}, (response: any) => {
+      console.log("response " + response)
+    })
 
-    console.log(`Deleting passwords from machine: ${machineToDelete}`);
     showDeleteConfirmation = false;
     machineToDelete = "";
   };
 
   const confirmDeleteAll = async () => {
-    console.log(`Deleting all passwords from machines linked to API Key: ${apiKeyToDeleteAll}`);
     // IntegrateThisMimi
     showDeleteAllConfirmation = false;
     apiKeyToDeleteAll = "";

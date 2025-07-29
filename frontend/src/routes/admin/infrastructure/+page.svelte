@@ -47,7 +47,6 @@
   onMount(async () => {
     const res = await pb.collection("users").getOne(pb.authStore.record!.id);
 
-    console.log(res.licenses)
     res.licenses.forEach((license: any) => {
       machines.push(license.machines)
       machines = machines.flat();
