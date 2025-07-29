@@ -93,6 +93,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("appDelete", machineToDelete => {
+    console.log("machine", machineToDelete)
     socket.emit("delete")
   })
 
