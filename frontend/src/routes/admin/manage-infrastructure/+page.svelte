@@ -148,7 +148,9 @@
       >
         {#if licenses.length > 0}
           <ul class="overflow-auto h-38">
-            {#each licenses.filter(l => l.apiKeyName.toLowerCase().includes(apiKeySearchTerm.toLowerCase())) as license}
+            {#each licenses.filter((l) => l.apiKeyName
+                .toLowerCase()
+                .includes(apiKeySearchTerm.toLowerCase())) as license}
               <li
                 class="flex justify-between items-center p-2 rounded-lg hover:bg-neutral-800"
               >
@@ -257,7 +259,9 @@
           <ul class="overflow-auto h-38">
             {#each licenses as license}
               {#if license.apiKey == selectedApiKey}
-                {#each license.machines.filter((m: any) => m.name.toLowerCase().includes(machineSearchTerm.toLowerCase())) as machine}
+                {#each license.machines.filter((m: any) => m.name
+                    .toLowerCase()
+                    .includes(machineSearchTerm.toLowerCase())) as machine}
                   <li
                     class="p-2 rounded-lg hover:bg-neutral-800 text-neutral-300"
                   >

@@ -20,8 +20,9 @@
   });
 
   socket.on("heartbeat", (data) => {
-    console.log(data);
     connectedSockets = data;
+    console.log(connectedSockets);
+    console.log(connectedSockets.length);
     // connectedSockets.map((s) =>
     //   s.socketId === data.socketId ? { ...s, status: data.status } : s,
     // );
@@ -29,11 +30,11 @@
 
   socket.on("disconnect_signal", (data) => {
     connectedSockets = connectedSockets.filter(
-      (s) => s.socketId !== data.socketId,
+      (s: any) => s.socketId !== data.socketId,
     );
   });
 
-  let connectedSockets = $state<{ socketId: string; status: string, machineId: string, savedLicenseKey: string }[]>([]);
+  let connectedSockets: Array<any> = $state([]);
 </script>
 
 <div>
