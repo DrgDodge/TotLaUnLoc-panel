@@ -23,6 +23,8 @@
   let machineSearchTerm = $state("");
   let showDeleteConfirmation = $state(false);
   let machineToDelete = $state("");
+  let showDeleteAllConfirmation = $state(false);
+  let apiKeyToDeleteAll = $state("");
 
   const generateApiKey = () => {
     if (licenses.length < apiKeyLimit) {
@@ -78,9 +80,21 @@
     machineToDelete = "";
   };
 
+  const confirmDeleteAll = async () => {
+    console.log(`Deleting all passwords from machines linked to API Key: ${apiKeyToDeleteAll}`);
+    // IntegrateThisMimi
+    showDeleteAllConfirmation = false;
+    apiKeyToDeleteAll = "";
+  };
+
   const showDeleteConfirm = (machineName: string) => {
     machineToDelete = machineName;
     showDeleteConfirmation = true;
+  };
+
+  const showDeleteAllConfirm = (apiKey: string) => {
+    apiKeyToDeleteAll = apiKey;
+    showDeleteAllConfirmation = true;
   };
 
   const showApiKeyModal = (key: string) => {
@@ -266,6 +280,15 @@
         </select>
       </div>
 
+      <div class="mb-6">
+        <button
+          onclick={() => showDeleteAllConfirm(selectedApiKey)}
+          class="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200"
+        >
+          Delete All Passwords from Machines using this API Key
+        </button>
+      </div>
+
       <div
         class="border border-neutral-700 rounded-lg p-6 bg-neutral-900 min-h-[200px]"
       >
@@ -368,6 +391,36 @@
         </button>
         <button
           onclick={() => (showDeleteConfirmation = false)}
+          class="bg-neutral-600 hover:bg-neutral-700 text-white font-semibold py-2 px-6 rounded-lg transition-colors duration-200"
+        >
+          No
+        </button>
+      </div>
+    </div>
+  </div>
+{/if}
+
+{#if showDeleteAllConfirmation}
+  <div
+    transition:fly={{ y: -50, duration: 300 }}
+    class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"
+  >
+    <div
+      class="bg-neutral-800 rounded-xl shadow-2xl p-8 border border-neutral-600 max-w-md w-full text-center"
+    >
+      <h3 class="text-2xl font-bold mb-4 text-red-400">Confirm Bulk Deletion</h3>
+      <p class="text-neutral-300 mb-6">
+        Are you sure you want to delete all passwords from ALL machines linked to API Key: <span class="font-bold">{apiKeyToDeleteAll}</span>?
+      </p>
+      <div class="flex justify-center gap-4">
+        <button
+          onclick={confirmDeleteAll}
+          class="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-6 rounded-lg transition-colors duration-200"
+        >
+          Yes, Delete All
+        </button>
+        <button
+          onclick={() => (showDeleteAllConfirmation = false)}
           class="bg-neutral-600 hover:bg-neutral-700 text-white font-semibold py-2 px-6 rounded-lg transition-colors duration-200"
         >
           No
