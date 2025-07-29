@@ -21,6 +21,8 @@
   let modalApiKey = $state("");
   let apiKeySearchTerm = $state("");
   let machineSearchTerm = $state("");
+  let showDeleteConfirmation = $state(false);
+  let machineToDelete = $state("");
 
   const generateApiKey = () => {
     if (licenses.length < apiKeyLimit) {
@@ -69,8 +71,16 @@
     await pb.collection("users").update(pb.authStore.record!.id, data);
   };
 
-  const deletePass = async (key: string) => {
+  const confirmDelete = async () => {
+    // IntegrateThisMimi
+    console.log(`Deleting passwords from machine: ${machineToDelete}`);
+    showDeleteConfirmation = false;
+    machineToDelete = "";
+  };
 
+  const showDeleteConfirm = (machineName: string) => {
+    machineToDelete = machineName;
+    showDeleteConfirmation = true;
   };
 
   const showApiKeyModal = (key: string) => {
@@ -274,7 +284,7 @@
                     >
                     <div class="flex gap-2">
                       <button
-                        onclick={() => deletePass(machine.name)}
+                        onclick={() => showDeleteConfirm(machine.name)}
                         aria-label="Delete all passwords from this machine"
                         class="text-neutral-400 hover:text-white transition-colors"
                       >
@@ -333,6 +343,36 @@
       >
         Close
       </button>
+    </div>
+  </div>
+{/if}
+
+{#if showDeleteConfirmation}
+  <div
+    transition:fly={{ y: -50, duration: 300 }}
+    class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"
+  >
+    <div
+      class="bg-neutral-800 rounded-xl shadow-2xl p-8 border border-neutral-600 max-w-md w-full text-center"
+    >
+      <h3 class="text-2xl font-bold mb-4 text-red-400">Confirm Deletion</h3>
+      <p class="text-neutral-300 mb-6">
+        Are you sure you want to delete all passwords from this machine: <span class="font-bold">{machineToDelete}</span>?
+      </p>
+      <div class="flex justify-center gap-4">
+        <button
+          onclick={confirmDelete}
+          class="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-6 rounded-lg transition-colors duration-200"
+        >
+          Yes
+        </button>
+        <button
+          onclick={() => (showDeleteConfirmation = false)}
+          class="bg-neutral-600 hover:bg-neutral-700 text-white font-semibold py-2 px-6 rounded-lg transition-colors duration-200"
+        >
+          No
+        </button>
+      </div>
     </div>
   </div>
 {/if}
