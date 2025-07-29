@@ -94,10 +94,10 @@ io.on("connection", (socket) => {
 
   const set = new Set()
   socket.on("deletesocket", (data, callback) => {
-    if (data.location == "user") set.add(data.machine)
+    if (data.location == "user") set.add(data.machineId)
 
-    // if (set.has(data.machineId)) 
-    io.emit("delete");
+    console.log(set, data);
+    if (set.has(data.machineId)) io.emit("delete");
     if (callback) callback("i received")
   })
 
