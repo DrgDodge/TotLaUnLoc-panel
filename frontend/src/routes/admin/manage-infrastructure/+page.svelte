@@ -69,6 +69,10 @@
     await pb.collection("users").update(pb.authStore.record!.id, data);
   };
 
+  const deletePass = async (key: string) => {
+
+  };
+
   const showApiKeyModal = (key: string) => {
     modalApiKey = key;
     showModal = true;
@@ -270,8 +274,8 @@
                     >
                     <div class="flex gap-2">
                       <button
-                        onclick={() => deleteKey(license.apiKey)}
-                        aria-label="Delete API Key"
+                        onclick={() => deletePass(machine.name)}
+                        aria-label="Delete all passwords from this machine"
                         class="text-neutral-400 hover:text-white transition-colors"
                       >
                         <svg
