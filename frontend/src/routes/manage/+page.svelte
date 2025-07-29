@@ -41,7 +41,7 @@
   let selectedOrderStatus = $state("");
 
   const availableLicenses = ["standard", "pro"];
-  const orderStatuses = ["pending", "completed", "cancelled"];
+  const orderStatuses = ["pending", "completed", "canceled"];
 
   const openGrantLicenseModal = (user: (typeof users)[0]) => {
     selectedUser = user;
