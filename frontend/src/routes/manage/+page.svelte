@@ -14,26 +14,15 @@
 
     if (recordLicenses) licenseOrders = recordLicenses;
 
-    // licenseOrders.forEach(async (order: any, index: number) => {
-    //   const user = await pb.collection("users").getOne(order.userId)
-    //   console.log(user)
-    //   // licenseOrders[index].email = user.email;
-    // })
-
-    // console.log(licenseOrders)
-
     const recordUsers = await pb.collection("users").getFullList();
 
     users = recordUsers;
 
     licenseOrders.forEach((order: any, index: number) => {
-      // console.log(orde
       const user = users.find((x: any) => x.id == order.userId);
       licenseOrders[index].email = user.email;
     })
 
-    // console.log(users);
-    console.log(licenseOrders);
   });
 
   // Need Backend
@@ -70,9 +59,6 @@
 
   const grantLicense = async () => {
     if (selectedUser && licenseToGrant) {
-      // console.log("test")
-
-      // console.log(selectedUser)
       selectedUser.license = licenseToGrant;
       selectedUser.apiLimit = grantApiKeyLimit;
       selectedUser.machineLimit = grantMachineLimit;
@@ -93,33 +79,13 @@
         })
         .catch(() => alert("Error! Could not grant license!"));
     }
-    // if (selectedUser && licenseToGrant) {
-    //   const userIndex = users.findIndex((u) => u.id === selectedUser!.id);
-    //   if (userIndex !== -1) {
-    //     if (!users[userIndex].licenses.includes(licenseToGrant)) {
-    //       users[userIndex].licenses.push(licenseToGrant);
-    //     }
-    //     users[userIndex].machineLimit = grantMachineLimit;
-    //     users[userIndex].apiKeyLimit = grantApiKeyLimit;
-    //     // Need Backend
-    //     alert(
-    //       `Granted ${licenseToGrant} license to ${selectedUser.name} with machine limit: ${grantMachineLimit}, API key limit: ${grantApiKeyLimit}`,
-    //     );
-    //   }
-    //   showGrantLicenseModal = false;
-    //   selectedUser = null;
-    //   licenseToGrant = "";
-    //   grantMachineLimit = 0;
-    //   grantApiKeyLimit = 0;
-    // }
   };
 
   const confirmUpdateOrderStatus = async () => {
     if (selectedOrder && selectedOrderStatus) {
       selectedOrder.status = selectedOrderStatus;
-      await pb
-        .collection("orders")
-        .update($state.snapshot(selectedOrder.id), $state.snapshot(selectedOrder))
+
+      await pb.collection("orders").update(selectedOrder.id, selectedOrder)
         .then(() => {
           alert(`License order ${selectedOrder.id} status updated to ${selectedOrderStatus}.`);
           showOrderStatusModal = false;
@@ -127,12 +93,9 @@
           selectedOrderStatus = "";
         })
         .catch(() => alert("Error! Could not update order status!"));
+
     }
   };
-
-  // const getUserName = (userId: string) => {
-  //   return users.find((u) => u.id === userId)?.name || "Unknown User";
-  // };
 </script>
 
 <div class="max-w-7xl mx-auto p-4 md:p-8">
