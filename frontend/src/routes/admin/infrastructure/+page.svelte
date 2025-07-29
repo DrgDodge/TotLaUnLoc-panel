@@ -21,8 +21,11 @@
 
   socket.on("heartbeat", (data) => {
     connectedSockets = data;
+    console.log(data)
     console.log(connectedSockets);
     console.log(connectedSockets.length);
+
+    
     // connectedSockets.map((s) =>
     //   s.socketId === data.socketId ? { ...s, status: data.status } : s,
     // );
