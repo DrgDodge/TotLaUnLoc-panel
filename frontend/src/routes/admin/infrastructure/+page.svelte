@@ -19,17 +19,20 @@
     connectedSockets.push(client);
   });
 
-  socket.on("heartbeat", (data) => {
-    connectedSockets = data;
-    console.log(data)
-    console.log(connectedSockets);
-    console.log(connectedSockets.length);
+  // socket.on("heartbeat", (data) => {
+  //   connectedSockets = data;
+  //   console.log(data)
+  //   console.log(connectedSockets);
+  //   console.log(connectedSockets.length);
 
+  //   connectedSockets.map(x => {
+  //     if (x.socketId == data.socketId)
+  //   })
     
-    // connectedSockets.map((s) =>
-    //   s.socketId === data.socketId ? { ...s, status: data.status } : s,
-    // );
-  });
+  //   // connectedSockets.map((s) =>
+  //   //   s.socketId === data.socketId ? { ...s, status: data.status } : s,
+  //   // );
+  // });
 
   socket.on("disconnect_signal", (data) => {
     connectedSockets = connectedSockets.filter(
